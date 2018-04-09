@@ -1,11 +1,12 @@
 ---
-title: Hello, World!
+title: Start My Journey!  
 date: 2017-12-26 21:21:47
-tags: hello-world
+tags: others
 ---
 
-```
-Show me your code!
-```
+
+
+大学以后，很少回忆，也很少思考，写东西对我来说已经是一件困难的事了。找了一个地方，没事就写点什么，有关技术，或者有关于生活，留给自己看。期待着自己的改变，也期待自己的进步，就向着自己内心最期待的那样。
+
 
 
