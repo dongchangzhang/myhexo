@@ -2,6 +2,7 @@
 title: Start My Journey!  
 date: 2017-12-26 21:21:47
 tags: others
+categories: 思考
 ---
 
 
