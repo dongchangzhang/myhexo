@@ -1,6 +1,5 @@
 {# Social Links #}
 {% include "./_footer/social.swig" %}
-
 <div class="copyright">
   <span class="power-by">
     {{ __('footer.powered', '<a class="hexo-link" href="https://hexo.io/">Hexo</a>') }}
