@@ -477,13 +477,309 @@ zsh, /bin/zsh
    difference=$(( end - start ))
    ```
 
-6. ​
+6. 延时
 
-字符替换：
+   ```shell
+   sleep n
+   ```
 
-tr oldChar newChar
+## 脚本调试
+
+1. 使用-x对脚本跟踪调试，此时会打印出每一条指令以及其输出结果
+
+   ```shell
+   > bash -x x.sh
+   ```
+
+2. 利用set -x 和 set +x 局部调试
+
+   * set -x：执行时显示参数和命令
+   * set +x：禁止调试
+   * set -v：命令进行读取时显示输入
+   * set +v：禁止打印输入
+
+   ```shell
+   #!/bin/bash
+   # test debug
+   for i in {1..6}
+   do
+   	set -x
+   	echo $i
+   	set +x
+   done
+   ```
+
+3. 通过传递环境变量
+
+   ```shell
+   #!/bin/bash
+   function DEBUG()
+   {
+   # $1 $2... 访问第n个参数
+   # $@ 一次性访问所有参数 = "$1" "$2" ...
+   # $* 类似$@ 但是参数被当做单独的个体 = "$1$2..."
+   [ "$_DEBUG" == "on" ] && $@ || :
+   }
+   for i in {1..10}
+   do
+   DEBUG echo $i
+   done
+   ```
+
+   设置_DEBUG来运行脚本
+
+   ```shell
+   > _DEBUG=on ./x.sh
+   ```
+
+4. 使用shebang
+
+   将#!/bin/bash替换为#!/bin/bash -xv
+
+
+## 函数
+
+1. 定义函数
+
+   ```shell
+   # 方式1
+   function fname()
+   {
+       statements;
+   }
+   # 方式2
+   fname()
+   {
+       statements;
+       # 可以包含返回值
+       return 0;
+   }
+   ```
+
+2. 函数调用
+
+   ```shell
+   # 直接使用函数名
+   > fname; # 执行fname
+   ```
+
+3. 参数传递
+
+   ```shell
+   # 参数以空格分割，跟在函数名后面
+   > fname arg1 arg2 ...
+   ```
+
+4. 参数获取
+
+   * $n：访问第n个参数
+   * $@：以列表的方式一次性打印所有的参数
+   * $*：访问所有的参数，被当做一个整体
+
+5. 递归函数
+
+   ```shell
+   F() { echo $1; F hello; sleep 1; }
+   ```
+
+   > fork炸弹：
+   >
+   > ```shell
+   > :() { :|:& }; :
+   > ```
+   >
+   > 该函数不断递归自身，不断生成新的进程，最终造成拒绝服务攻击。
+
+6. 导出函数
+
+   函数像环境变量一样用export导出，扩大作用域到子进程中
+
+   ```shell
+   export -f filename
+   ```
+
+7. 获取函数返回值
+
+   $?返回上一条命令的返回值
+
+## 比较与判断
+
+基本格式
 
 ```shell
-> echo ababab | tr 'a' 'b'
-bbbbbb
+if condition;
+then
+	commands
+else if condition;
+then
+	commands
+else
+	commands
+fi
 ```
+
+1. 判断简化
+
+   ```shell
+   [ condition ] && action; # condition为真，执行action
+   [ condition ] || action; # condition为假，执行action
+   ```
+
+2. 算数比较
+
+   条件放在中括号中，注意空格
+
+   ```shell
+   [ $var -eq 0 ] # 两边一定有空格， 当var=0， return 1； else return 0
+   ```
+
+   * 大于：-gt
+   * 小于：-lt
+   * 大于等于：-ge
+   * 小于等于：-le
+   * 逻辑与：-a
+   * 逻辑或：-o
+
+3. 文件系统测试
+
+   ```shell
+   [ -f $file ]: file 是文件
+   [ -x $file ]: file 可执行
+   [ -d $file ]: file 是目录
+   [ -e $var ]: var 包含文件
+   [ -c $var ]: 是一个字符设备文件
+   [ -b $var ]: 是一个块设备
+   [ -w $var ]: 可以写
+   [ -r $var ]: 可以读
+   [ -L $var ]: 是一个符号链接
+   ```
+
+4. 字符串比较
+
+   字符串比较最好使用 [[ ]]
+
+   ```shell
+   [[ $str1 op $str2 ]] # op : ==; !=; >; <
+   [[ -z $str ]] # str 空吗？
+   [[ -n $str ]] # str 非空吗？
+   ```
+
+5. 逻辑运算
+
+   使用 && 或 || 可以组合条件；
+
+   test命令可以避免括号
+
+   ```shell
+   if test $var -eq 0; then echo yes; fi;
+   # 等价于
+   if [ $var -eq 0 ]; then echo yes; fi;
+   ```
+
+   ​
+
+## 循环
+
+1. while
+
+   ```shell
+   while 条件
+   do
+   	statements
+   done
+   ```
+
+2. for
+
+   ````shell
+   # type1
+   for var in list # list是字符串或者序列
+   do
+   	commands
+   done
+   # type2
+   for ((i=0; i<10;++i)) { echo $i; }
+   ````
+
+   生成序列的方法
+
+   ```shell
+   #1
+   > echo ${1..50} 
+    1 2 3 4 .. 50
+   #2 
+   > echo {a..z}
+    a b c .. z
+   ```
+
+3. until
+
+   ```shell
+   x=0
+   until [$x -eq 9 ];
+   do
+   	let x++; echo $x
+   done
+   ```
+
+   ​
+
+## 小技巧
+
+1. 利用()定义一个子shell
+
+    ```shell
+    > pwd
+    dir1
+    > (cd /bin; ls)
+    somethings in /bin
+    > pwd
+    dir1
+    ```
+
+2. read命令
+
+    read可以实现不按回车读取数据
+
+    read  参数 var
+
+    * -n : 读取n个字符存入var
+    * -s： 无回显方式读取密码
+    * -p：显示提示信息
+    * -t：特定时间内读取
+    * -d：特殊符号作为输入结束
+
+3. 执行直至成功
+
+    ```shell
+    repeat() { while true; do $@ && return; done }
+    # 更快
+    repeat() { while :; do $@ && return; done }
+    ```
+
+4. 字段分隔符
+
+    内部字段分隔符IFS
+
+    ```shell
+    #!/bin/bash
+    a="1:2:3"
+    oldIFS=$IFS
+    IFS=":"
+    for i in $a
+    do echo $i
+    done
+
+    # 输出
+    1
+    2
+    3
+    ```
+
+5. 字符替换：
+    tr oldChar newChar
+    
+    ```shell
+    > echo ababab | tr 'a' 'b'
+    bbbbbb
+    ```
