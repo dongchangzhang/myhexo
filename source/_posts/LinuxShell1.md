@@ -426,9 +426,58 @@ zsh, /bin/zsh
 
 ## 时间和日期
 
+1. 获取日期
 
+   ```shell
+   > date
+   Tue Apr 17 08:48:40 CST 2018
+   ```
 
-> 未完待续。。。
+2. 纪元时
+
+   UTC，又称为世界标准时间或者世界协调时间。unix人文UTC1970年1月1日0点是纪元时间，也被成为posix时间
+
+   ```shel
+   # 获取纪元时
+   > date +%s
+   # 将日期字符串转换为纪元时
+   > date --date "Thu Nov 18 08:07:21 IST 2010" +%s
+   1290047841
+   ```
+
+3. 格式输出
+
+   ```shell
+   # 结合 '+' 
+   > date "+%d %B %Y"
+   20 May 2010
+   # 星期 %a (Sat) %A (Saturday)
+   # 月 %b (Nov) %B (November)
+   # 日 %d
+   # mm/dd/yy  %D
+   # 小时 、、、、、、、、、、%I  %H
+   # 分钟 %M
+   # 秒 %S
+   # 纳秒 %N
+   # Unix纪元时  %s
+   ```
+
+4. 设置时间
+
+   ```shell
+   > date -s "格式化的时间日期"
+   ```
+
+5. 时间间隔
+
+   ```shell
+   start=$(date +%s)
+   ...
+   end=$(date +%s)
+   difference=$(( end - start ))
+   ```
+
+6. ​
 
 字符替换：
 
