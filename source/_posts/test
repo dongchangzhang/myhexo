@@ -1,7 +1,0 @@
-#!/bin/bash
-function f()
-{
-    echo $1
-    echo a
-
-}

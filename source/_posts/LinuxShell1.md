@@ -1,5 +1,5 @@
 ---
-title: Linux Shell 基础内容
+title: LinuxShell1 - 基础内容
 date: 2018-04-16 21:55:18
 tags: Shell
 categories: Linux
@@ -723,7 +723,27 @@ fi
    ```
 
    ​
+## 向脚本传递命令行参数
+我们希望向下面这个脚本中传递参数
+```shell
+#!/bin/bash
 
+# script name is a.sh
+
+for x in $*
+do
+    echo $x
+done
+```
+ 参数传递方法如下：
+```shell
+> ./a.sh a b c d e
+a
+b
+c
+d
+e
+```
 ## 小技巧
 
 1. 利用()定义一个子shell
@@ -783,3 +803,6 @@ fi
     > echo ababab | tr 'a' 'b'
     bbbbbb
     ```
+
+
+> 参考：Linux Shell脚本攻略　第一章
