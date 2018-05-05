@@ -1,5 +1,5 @@
 ---
-title: LinuxShell3 - more
+title: LinuxShell3 - more commands
 date: 2018-04-28 13:31:28
 tags: Shell
 categories: Linux
@@ -294,11 +294,142 @@ input.data x0009 x0019 ...
 
 此外，除了k以外，还可以使用M、G、c（byte）、w（word）等后缀。
 
+制定文件前缀名：在命令后添加前缀名即可。
+
+```shell
+> split -b 10k data.file d -a 4 split_file
+> ls
+split_file0000    split_file0001 ...
+```
+
+使用参数"-l nu_of_lines"按照数据的行数来进行切分
+
+```
+ > split -l 10 data.txt
+ # 得到各是10行的文件
+```
+
+> Another One: csplit
+
+csplit 是split的一个变体。后者仅仅能根据文件的大小和行数进行切分，但是前者可以根据文本自身的特点进行分割。是否存在某个单词或者文本内容都可以作为分割文件的条件。
+
+有如下的日志文件：
+
+```txt
+$ cat server.log 
+SERVER-1
+[connection] 192.168.0.1 success 
+[connection] 192.168.0.2 failed 
+[disconnect] 192.168.0.3 pending 
+[connection] 192.168.0.4 success 
+SERVER-2 
+[connection] 192.168.0.1 failed 
+[connection] 192.168.0.2 failed 
+[disconnect] 192.168.0.3 success 
+[connection] 192.168.0.4 failed 
+SERVER-3 
+[connection] 192.168.0.1 
+pending [connection] 192.168.0.2 
+pending [disconnect] 192.168.0.3 
+pending [connection] 192.168.0.4 failed
+```
+
+任务是将上述的文件分割为server1.log、server2.log和server3.log。可以使用如下的命令：
+
+```shell
+csplit server.log /SERVER/ -n 2 -s {*} -f server -b "%02d.log" ; rm server00.log
+```
+
+其中/SERVER/用来匹配一行，{\*}表示重复执行分割，直至文件结尾。\*可以替换为数字表示执行分割的次数。-s表示静默方式，不打印其他信息，-n表示分割文件后的文件名后缀的数字的个数。-f表示分割文件的前缀，-b表示后缀的格式。在这里文件名即前缀加后缀。
+
+> 根据扩展名切分文件名
+
+借助"%"符号可以方便将“名称.扩展名"这种名称提取出来。对于sample.jpg，下面是一个例子，将名称提取出来
+
+```shell
+file="sample.jpg"
+name=${file%.*}
+echo name is $name
+
+output: name is sample
+```
+
+对于${VAR%.\*}的含义如下：首先删除位于%右侧的通配符，上述例子为".\*"，通配符由右侧向左侧进行匹配。然后为VAR赋值。对于sample.jpg，首先通配符匹配到.jpg，删除通配符对VAR进行赋值，得到sample。
+
+注意"%"是非贪婪模式，仅仅匹配从右到左的最短的结果。还有一个是"%%"，但是该模式是从右到左贪婪的，即匹配最长结果。
+
+```shell
+$ VAR=hack.fun.book.txt
+$ echo ${VAR%.*}
+hack.fun.book
+$ echo ${VAR%%.*}
+hack
+```
+
+> 删除前缀
+
+使用#和##可以删除前缀。其用法与%类似，不同的是其是从左向右匹配的
+
+```shell
+$ VAR=hack.fun.book.txt
+$ echo ${VAR#*.}
+fun.book.txt
+$ echo ${VAR##*.}
+txt
+```
 
 
 
 
-## 批量操作
+
 
 ## 并行加速
 
+如果需要你的程序需要进行大量的计算，属于cpu密集的应用，为了提高运行效率，就应该充分利用多核。
+
+举个栗子：对多个文件进行md5sum计算：
+
+```shell
+#!/bin/bash
+# file name is md5.sh
+
+PIDARRAY=()
+for file in F1.iso F2.iso
+do
+    md5sum $file &
+    PIDARRAY+=("$!")
+done
+wait ${PIDARRAY[@]}
+```
+
+当执行上述脚本时，获得的结果与下面的运行结果相同。
+
+```shell
+md5sum F1.iso F2.iso
+```
+
+但是由于多个命令是并行执行的，可以更快得到结果。其工作原理就是使用'&'操作符将shell命令置于后台执行。为了避免循环结束时脚本退出，使用$!获取最后一个进程的PID，使用wait来等待这些进程。
+
+## 批量操作
+
+利用rename、mv结合find，命令可以实现批量操作
+
+```shell
+#!/bin/bash 
+#文件名: rename.sh 
+#用途: 重命名 .jpg 和 .png 文件 
+count=1; 
+for img in `find . -iname '*.png' -o -iname '*.jpg' -type f -maxdepth 1` 
+do 
+	new=image-$count.${img##*.} 
+	echo "Renaming $img to $new" 
+	mv "$img" "$new" 
+	let count++ 
+done
+# 输出如下： 
+$ ./rename.sh 
+Renaming hack.jpg to image-1.jpg 
+Renaming new.jpg to image-2.jpg 
+Renaming next.png to image-3.png
+```
+> 参考：Linux Shell 脚本攻略
