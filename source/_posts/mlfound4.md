@@ -5,8 +5,6 @@ tags: machine learning
 categories: ML
 ---
 
-感谢台湾大学林轩田老师！
-
 ## 04 Feasibility of Learning
 
 <!-- more -->

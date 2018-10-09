@@ -5,8 +5,6 @@ tags: machine learning
 categories: ML
 ---
 
-感谢台湾大学林轩田老师！
-
 ## 02 Learning to Answer Yes or No
 我们已经知道，机器学习模型由两部分组成：演算法和Hypothesis Set。如果我们想要让计算机学习去回答答案为是、否这样的问题时（就像第一章中的信用卡发放的问题那样），我们需要怎样的演算法，我们又应该使用什么样的hypothesis set呢？
 <!-- more -->

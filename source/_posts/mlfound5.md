@@ -5,8 +5,6 @@ tags: machine learning
 categories: ML
 ---
 
-感谢台湾大学林轩田老师！
-
 ## 05 Training Versus Testing
 在第四章中，我们一开始提出来一个问题：Learning好像是不可行的，经过了证明，我们确定了在Hypotheses Set是有限的时候，Learning是可以做到的。然而，在实际的学习任务中，假设空间中往往存在无限多个假设h，那么在这个时候会发生什么呢，Learning能够进行这个结论在这种情况下还能成立吗？
 <!-- more -->
