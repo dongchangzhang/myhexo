@@ -149,3 +149,7 @@ categories: ML
 <div align=center> ![conclusion](mlfound6/20.png) </div>
 
 现在，我们就能证明2D Perceptron是能够Learning的（因为Break Point是4， 增长函数的上界是N \*\* 3）。
+
+> 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！
+
+--- END --- 

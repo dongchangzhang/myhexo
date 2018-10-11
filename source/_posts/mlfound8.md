@@ -43,3 +43,7 @@ ideal mini-target是由p(y|x)和err同时决定的，pointwise error通常取最
 在计算错误的时候，能够获得正确的err是最好的，但是实际上我们很难得到真实的error，这是我们往往需要一个友好的方法去接近这个error。
 ### Weighted Classification
 我们需要对不同的error添加不同的惩罚，此时可以选用virtual copying方法：将坏的点复制weight遍（模糊）！
+
+> 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！
+
+--- END --- 

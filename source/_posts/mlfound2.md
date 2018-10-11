@@ -59,4 +59,6 @@ Perceptron Hypothesis Set中包含了无数条（infinite）直线（或超平�
 
 但是Pocket Algorithm要比PLA慢。
 
+> 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！
+
 --- END --- 

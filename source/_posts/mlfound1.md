@@ -69,4 +69,6 @@ AI：compute something that shows intelligent behavior.
 统计学使用数据预测未知的概率。是ML的一种方法，很多机器学习方法来源于统计学。
 
 
+> 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！
+
 --- END --- 
