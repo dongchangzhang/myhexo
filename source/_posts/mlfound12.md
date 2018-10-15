@@ -1,16 +1,16 @@
 ---
-title: 机器学习基石（十二）
+title: 12 Nonlinear Transformation
 date: 2018-10-14 19:18:13
 tags: machine learning
 categories: ML
 ---
 
-## 12 Nonlinear Transformation
+《机器学习基石》系列课程（十二）
 
 我们学习过线性分类模型，现在我们将学习非线性模型！
 
 <!-- more -->
-### Quadratic Hypotheses
+## Quadratic Hypotheses
 到目前为止，我们所学习的都是线性分类模型，对于这些模型，我们通常可以找到一条线（或超平面）将我们的数据分为两个部分，我们只需要对每个数据点算一下分数就能实现这一点。
 
 但是这样的模型是受限的！在理论上，我们使用的线性模型，VC维度是比较小的，但是实际上我们会遇到一些数据，这些数据对于线性模型是不能做到区分的，那么此时我们不论选择假设空间中的哪一条线，其Ein都会很大！
@@ -43,7 +43,7 @@ categories: ML
 
 <div align=center> ![info](mlfound12/7.png) </div>
 
-### Nonlinear Transform
+## Nonlinear Transform
 现在通过空间的变换，我们将我们有的不能线性分开的数据转换到能够线性分开的z空间上。我们希望在z空间上也有一个Good Perceptron能够将数据分开。然而我们现在只知道在x空间上怎样对{(x, y), ...}这样的数据分类并获得一个Good Perceptron。那么我们现在要做的是对z空间上的数据{(zn=Φ2(x), y), ...}寻找一个Good Perceptron。
 
 我们可以这样考虑：
@@ -57,7 +57,7 @@ categories: ML
 
 实际上特征转换的思想我们并不陌生，在第三章我们介绍各种特征（具体特征、原始特征、抽象特征等）时，我们就接触了这种思想：对于手写数字，我们知道的是每一个数字的各个位置的像素灰度数值，我们可能可以将这些raw feature转换为平面密度和对称性等来实现对数字的分类和识别！
 
-### Price of Nonlinear Transform
+## Price of Nonlinear Transform
 现在我们将上述方法推广到n维（上面介绍的是利用二次曲线来分开平面上的点，现在我们使用n次曲线同样实现这件事），如果我们需要Q次的变换：
 
 <div align=center> ![q-th transformation](mlfound12/9.png) </div>
@@ -75,7 +75,7 @@ categories: ML
 我们该怎样选择一个合适的q呢，很明显，q既不是越大越好也不是越小越好！那么能不能使用人眼来选择呢？
 首先，对于高纬度空间，人类是很难对其进行想象的。其次，就算是一个比较低的纬度的空间，我们这样做往往会也会带来一些风险：我们人脑会首先对这些模型进行优化，然而我们在计算时却忽略了我们自己优化所带来的代价，这些代价可能很大，从而会对q的选择带来影响。
 
-### Structrued Hypothesis Sets
+## Structrued Hypothesis Sets
 
 现在我们重新看一看我们的转换过程。
 <div align=center> ![transform revisited](mlfound12/12.png) </div>

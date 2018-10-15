@@ -1,15 +1,17 @@
 ---
-title: 机器学习基石（五）
+title: 05 Training Versus Testing
 date: 2018-10-09 12:35:08
 tags: machine learning
 categories: ML
 ---
 
-## 05 Training Versus Testing
+
+《机器学习基石》系列课程（五）
+
 在第四章中，我们一开始提出来一个问题：Learning好像是不可行的，经过了证明，我们确定了在Hypotheses Set是有限的时候，Learning是可以做到的。然而，在实际的学习任务中，假设空间中往往存在无限多个假设h，那么在这个时候会发生什么呢，Learning能够进行这个结论在这种情况下还能成立吗？
 <!-- more -->
 
-### Recap and Preview
+## Recap and Preview
 现在我们先对整体做一个回顾：如果我们假设Hypothesis Set H中假设h的数量是M，那么如果在我们拥有的数据量N是足够多的时候，根据霍夫丁不等式，我们知道任意一个在H中的一个h，它的Ein(h)和Eout(h)是大概相等的，或者说是相差不多的。如果我们找到了一个h，Ein(h)和0很接近，那么也就可以保证Eout(h)也和0接近，由此我们知道Learning是一件可能完成的事情。
 在这个过程中，有两个核心的问题：
 
@@ -26,7 +28,7 @@ categories: ML
 
 <div align=center> ![mh](mlfound5/2.png) </div>
 
-### Effective Number of Lines
+## Effective Number of Lines
 我们首先考虑M这个数是怎么来的。
 我们在使用演算法自由自在地选择h的时候，可能会遇到一些BAD DATA，这些BAD DATA会恶化我们的选择。我们在计算这些BAD DATA发生的概率时使用了union bound方法，即将每一个BAD都or了起来，也就是最终的BAD概率是由每一次BAD概率的加和得到的。这也就意味着我们有一个前提假设是“所有的BAD事件都是没有重叠的”。然而当我们考虑M是无限的时候，union bound是否会失败呢？
 
@@ -43,7 +45,7 @@ categories: ML
 
 我们就可以说Learning is possible！
 
-### Effective Number of Hypotheses
+## Effective Number of Hypotheses
 
 现在我们使用Dichotomies(二分类)的概念来继续我们的推论。我们设现有的Hypotheses Set H中是一些直线，H中的每一条直线都能够将点标记为‘o’或者‘x’。Dichotomies的Hypotheses Set是经过上述每一条直线标记后的每一点的状态序列(ooxxx..., etc, depend N)。上面我们经过了讨论，可以知道虽然H是无限的，但是我们的Dichotomies H的上限是2 \*\* N。
 我们现在使用Dichotomies H的大小来衡量（或者说替代）M。不过现在它的大小现在还是依赖于我们已经选择好的数据集x1, x2, x3, ...。这在以后的证明过程中可能会带来一些麻烦，所以我们从数据集合整体中任意选择N个数据点，取Dichotomy H的大小的最大值作为M的替代着mh(N):
@@ -65,7 +67,7 @@ mh(N) = N + 1，此时当N很大的时候mh(N) << 2 \*\* N；
 <div align=center> ![convex split](mlfound5/8.png) </div>
 我们可以计算得到mh(N) = 2 \*\* N。
 
-### Break Point
+## Break Point
 上文中我们举出了几个简单的例子观察成长函数：
 
 <div align=center> ![sum](mlfound5/9.png) </div>

@@ -1,21 +1,18 @@
 ---
-title: 机器学习基石（六）
+title: 06 Theory of Generalization
 date: 2018-10-10 19:03:21
 tags: machine learning
 categories: ML
 ---
 
-
-
-## 06 Theory of Generalization
-
+《机器学习基石》系列课程（六）
 
 
 举一反三！
 
 <!-- more -->
 
-### Restriction of Break Point
+## Restriction of Break Point
 
 在上一章里，我们曾经假设Break Point和增长函数有一定的数学关系，除此之外，我们也讨论过了四种情况下的Break Point：
 
@@ -37,7 +34,7 @@ categories: ML
 
 那么，如果我们对一个增长函数，给出了它的Break Point k，我们能够求出在k的约束下的mh(N)的上界是多项式的呢？
 
-### Bounding Function: Basic Cases
+## Bounding Function: Basic Cases
 
 现在，我们使用Bounding Founction B(N, k)来描述Break Point为k的mh(N)的上界。实际上就是看有多少个二分类，其满足任何长度为k的子集都是不能被shatter的。
 
@@ -56,7 +53,7 @@ categories: ML
 3. 对于k和N相等的情况下，只要在所有的情况下删除一种就能满足定义，因此是2 \*\* N - 1。
 4. 对于其他的下三角的部分（也是最重要的部分），我们可以经过一个巧妙的归纳证明，归纳出其与上一行的两个元素存在关系。
 
-### Bounding Function: Inductive Cases
+## Bounding Function: Inductive Cases
 
 在上一节中，我们对第4种情况的归纳没有详细的描述，在这一节中给出其具体的归纳过程。
 
@@ -100,7 +97,7 @@ categories: ML
 
 其上限是poly(N)。我们只要有一个有限的Break Point，我们就能用多项式的上界限制增长函数
 
-### A Pictorial Proof
+## A Pictorial Proof
 
 我们这一段时间的工作，一直是试图将霍夫丁不等式中的M替换为mh(N)，然后再看看能否替换成多项式。实际上，这并不是简单的替换就行的，我们的替换实际上会是这个样子的：
 

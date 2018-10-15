@@ -1,16 +1,16 @@
 ---
-title: 机器学习基石（十三）
+title: 13 Hazard of Overfitting
 date: 2018-10-15 08:59:10
 tags: machine learning
 categories: ML
 ---
 
+《机器学习基石》系列课程（十三）
 
-## Hazard of Overfitting
 今天我们们学习什么是过拟合，它有什么危险以及该怎样处理过拟合！
 
 <!-- more -->
-### What is Overfitting
+## What is Overfitting
 我们首先从一个例子出发。想象我们在二维平面上有5个数据点，我们需要根据这些数据来学习一个Regression问题。其中，每个点的y都是根据targert f产生的（可能会添加一些噪音），也就是说我们想要学习的线是蓝色的线：
 
 <div align=center> ![bad generalization](mlfound13/1.png) </div>
@@ -29,7 +29,7 @@ categories: ML
 2. 路不是很平：数据中包含噪音。
 3. 油不够了：数据太少。
 
-### The Role of Noise and Data Size
+## The Role of Noise and Data Size
 现在我们举一个例子：例子一是使用一个10次target function生产的一些数据，然后添加一些Noise，例子二是一个50次的target function生产的一些数据，不加噪音：
 
 <div align=center> ![case study](mlfound13/3.png) </div>
@@ -52,7 +52,7 @@ categories: ML
 
 那么对于没有Noise呢，看起来好像还是g2做的更好！但是此时真的没有Noise吗？实际上当我们学习的东西很复杂的时候，这个复杂度也会造成Noise。就像用50次的target function生成的数据，我们使用更低次的Learning Model去fit，那么这二者复杂度之间的差异将会带来Noise！
 
-### Deterministic Noise
+## Deterministic Noise
 我们可以通过实验来探讨我们使用的模型复杂度、数据的噪音和数据的数量和Overfit Level有什么关系，现在我们直接来看实验结果：
 
 <div align=center> ![result](mlfound13/6.png) </div>
@@ -72,7 +72,7 @@ deterministic noise，也就是我们Learning到的最好的h和目标函数f之
 
 这也说明，如果我们要学习一个简单的任务，我们就不能使用一个更复杂的模型！
 
-### Dealing with Overfitting
+## Dealing with Overfitting
 那我们该怎样处理Overfitting呢？一般有这样集中方法：
 1. 从简单的Model开始，逐渐增加模型的复杂度。
 2. 尝试去掉噪音（数据清洗等），这种方法可能有用，但是很多时候作用是有限的。

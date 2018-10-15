@@ -1,11 +1,11 @@
 ---
-title: 机器学习基石（七）
+title: 07 The VC Dimension 
 date: 2018-10-10 21:06:44
 tags: machine learning
 categories: ML
 ---
 
-## 07 The VC Dimension 
+《机器学习基石》系列课程（七）
 
 我们已经讨论过了，拥有Break Point k的增长函数mh(N)的上界最大是N的k-1次幂，在第6节的最后，我们提出来VC Bound， 利用该公式，我们可以有这样的推论，如果我们当前的Learning问题满足：
 
@@ -17,7 +17,7 @@ categories: ML
 
 <!-- more -->
 
-### Definition of VC Dimension
+## Definition of VC Dimension
 
 现在，我们为最大的非Break Point取一个正式的名字：VC Dimension，将其记为dvc。此时，如果N小于dvc，那么对于有N个输入的假设空间，一定能够shatter这些数据。任意k大于dvc，k都是H的Break Point。那么此时，我们就可以对成长函数的上界有一个新的表示：
 
@@ -36,7 +36,7 @@ dvc取其它数值的，可以有其它的表示方式。
 
 对于一个好的假设空间来说，它有有限的VC Dimension。此时，如果我们知道我们的Learning任务有一个有限的dvc，那么不管我们的学习算法是什么，不管我们的输入数据的分布是什么，不管我们要学习的目标函数是什么，我们都能保证我们的学习能够进行，因为我们dvc is finite保证了g能够使Ein和Eout大致相等。
 
-### VC Dimension of Perceptrons
+## VC Dimension of Perceptrons
 
 我们再回顾一下在二维Perceptron任务上到底发生了什么，我们只有输入线性的输入数据，PLA才能够停止，而我们跑了很多次以后，得到的最终结果是一条线，能够将所有的点正确的分为两类，实际上就是让Ein=0。而另一方面，我们在某一个符合某一个分布，并利用target function生成的数据上进行Learning时，由于2D数据，其dvc=3，也就保证了在N足够大的时候，Ein和Eout是能够大致相等的。以上这两点保证了PLA的可行性。
 
@@ -63,7 +63,7 @@ dvc取其它数值的，可以有其它的表示方式。
 
 证明2用到了线性代数中一个向量的线性表示的知识。我们取d+2个点，看第d+2个点能否被其它的点线性表示。由此证明出2。
 
-### Physical Intuition of VC Dimension
+## Physical Intuition of VC Dimension
 
 那么VC Dimension的物理意义是什么呢？VC Dimension表示了假设空间的自由度，或者形象地说，就是假设空间有多少个有效的旋钮（参数）我们能够调节（当然，只是一个不准确的描述，可能并不如此）。比如，对于Positive Rays模型，我们的dvc=1，我们只能调节分界点在哪，对于Positive Intervals问题，我们则有两个参数，可以调节左边在哪，右边在哪。
 
@@ -74,7 +74,7 @@ dvc取其它数值的，可以有其它的表示方式。
 
 由此，我们说使用适当的dvc（适当的模型）是十分重要的。
 
-### Interpreting VC Dimension
+## Interpreting VC Dimension
 
 现在，我们想更深入了解VC Dimension的意义。我们首先对VC Bound重新描述。
 
@@ -107,7 +107,7 @@ VC Dimension还有另外一层意思：就是资料的复杂度。资料越大�
 
 VC Bound很宽松，但是做的已经很好了。
 
-### Conclusion
+## Conclusion
 在这一章中我们介绍了VC Dimension，也就是最大的非Break Point。在Perceptrons上其数值是d+1。物理意义上，dvc告诉我们model有多大的自由度，我们可以使用它来看模型的复杂度以及需要使用多少数据来学习。
 
 

@@ -1,20 +1,20 @@
 ---
-title: 机器学习基石（四）
+title: 04 Feasibility of Learning
 date: 2018-10-08 19:47:22
 tags: machine learning
 categories: ML
 ---
-
-## 04 Feasibility of Learning
+ 
+《机器学习基石》系列课程（四）
 
 <!-- more -->
 
-### Learning is Impossible?
+## Learning is Impossible?
 虽然我们已经学习了PLA，并使用PLA尝试回答是否问题，但是有一个惊悚的问题我们可能并没有发现：如果对学习没有添加任何限定，Learning可能是做不到的。我们总是在根据有限的数据来选择g，然而对于选择出的g，我们真的能够说g和f最相似吗。这显然是不能的。
 机器学习中有“No Free Launch”定理，其指出我们没有理由得出对我们已有经验物体之外的推理。
 那么我们需要添加怎样的假设能够让Learning在理论上可以进行呢？
 
-### Probability to the Rescue
+## Probability to the Rescue
 我们可以从其它场景入手，推论出一些未知的关系：
 
 <div align=center> ![green_red_bin](mlfound4/1.png) </div>
@@ -36,7 +36,7 @@ categories: ML
 
 该不等式说明了这样一个问题：对于一个很大的N，v和u相差很小（绝对值小于e)。那么根据这个不等式，我们也可以说，当从瓶子中抓取的弹珠很多的时候，v和u相等是大概率可能正确的（PAC：probably approximately correct）。
 
-### Connection to Learning
+## Connection to Learning
 在上面，我们针对有橘黄和绿色弹珠的小球的比例估计问题，使用hoeffding不等式说明了在N足够大的情况下，是能够说明u和v相等是PAC。然而这听起来和我们所要探索的Learning问题没有什么关系。实际上我们可以将Learning问题类比为瓶子弹珠颜色概率问题：
 我们现在仅仅考虑一个确定的hypoothesis h(x)，我们所要证明的是h(x)和目标函数f(x)是否相同。我们现在假设有这样的一个瓶子，其满足以下要求：
 
@@ -56,7 +56,8 @@ categories: ML
 <div align=center> ![hoeffdingeineout](mlfound4/5.png) </div>
 
 那么，如果我们选择一个Ein(h)很小的假说h，我们就可以说 “g = h”是PAC。也就是说，在Learning中，在我们已有的数据上g和f是接近的，那么在未知的数据上，g和f很接近是PAC的。
-### Connection to Real Learning
+
+## Connection to Real Learning
 不过在实际学习任务中，h并不是确定的，我们有很多很多的h等待我们去选择。
 
 <div align=center> ![multiple h](mlfound4/6.png) </div>

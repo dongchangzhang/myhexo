@@ -1,15 +1,15 @@
 ---
-title: 机器学习基石（十）
+title: 10 Logistic Regression
 date: 2018-10-12 18:37:20
 tags: machine learning
 categories: ML
 ---
 
-## 10 Logistic Regression
+《机器学习基石》系列课程（十）
 
 <!-- more -->
 
-### Logistic Regression Problem
+## Logistic Regression Problem
 我们学习过了Binary Classification和Linear Regression问题。对于二分类问题，只能对类别进行区分。例如：如果我们现在有一些病人的数据，我们想要学习病人患心脏病的情况，Binary Classification只能学习到是否会患病。如果我们不仅仅需要Learning到病人会不会患心脏病，还需要知道他患病的概率是多少，此时Binary Classification就不能胜任了。对于这种任务我们通常称之为‘Soft’ Binary Classification，其一般形式如下：
 ```
 f(x) = P(+1|x) ; 
@@ -32,7 +32,7 @@ f(x) = P(+1|x) ;
 
 <div align=center> ![r](mlfound10/4.png) </div>
 
-### Logistic Regression Error
+## Logistic Regression Error
 现在我们比较我们已经学习过的三种Learning方法：
 
 <div align=center> ![difference](mlfound10/5.png) </div>
@@ -58,7 +58,7 @@ g = argmax(likelihood(h))
 
 <div align=center> ![cross entropy error](mlfound10/8.png) </div>
 
-### Gradient of Logistic Regression Error
+## Gradient of Logistic Regression Error
 既然要Learning，我们就需要最小化Ein(w)。我们知道Linear Regression问题的平方误差是一个平滑连续的凸函数，所以我们能够使用在梯度为0处是最小值这个技巧来求最优解。当然实际上logistic的Error同样是一个平滑的凸函数，我们可以求得令∇E in (w) = 0处的w即可。
 
 <div align=center> ![graph](mlfound10/9.png) </div>
@@ -82,7 +82,7 @@ g = argmax(likelihood(h))
 <div align=center> ![update2](mlfound10/12.png) </div>
 
 
-###  Gradient Descent
+## Gradient Descent
 
 对于上面所提出的方法，实际上包含一种贪心的思想，此外，当我们使用的步长数值η比较小时，我们可以将Ein用泰勒展开:
 

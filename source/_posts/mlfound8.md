@@ -1,14 +1,16 @@
 ---
-title: 机器学习基石（八）
+title: 08 Noise and Error
 date: 2018-10-11 17:03:32
 tags: machine learning
 categories: ML
 ---
 
-## 08 Noise and Error
+
+《机器学习基石》系列课程（八）
+
 我们在之推到验证VC Bound时，做了一些假设，其中就包括数据中是不包含噪音的（Noise）。如果我们的数据中包含错误和噪音（真实的情况下往往是这样的），那么会发生什么？
 <!-- more -->
-### Noise and Probabilistic Target
+## Noise and Probabilistic Target
 实际上我们在学习PLA算法时就讨论过Noise，当时我们说如果数据是线性不可分的话，我们的PLA算法就不能停止，我们可以把这些导致不能线性可分的点看作是Noise，因此我们使用Pocket算法来解决这种问题。
 Noise同时存在于x与y：仍然是银行信用卡发放问题，有可能是用户提交信息写错了，也有可能是专家标注过程标注错了，甚至可能两个专家对同一个用户的数据给出了不同的态度。当然，在其它具体的场景中Noise和Error产生的原因会有其特定的因素。
 那么我们之前讨论过的VC Bound在Noise的条件下还能作用很好吗？
@@ -25,7 +27,7 @@ Noise同时存在于x与y：仍然是银行信用卡发放问题，有可能是�
 
 VC Bound仍然可行，同时，我们的Pocket算法也能得到解释：我们尽量让Ein越小越好，在有噪音的前提下仍能够让Ein与Eout大致相等，也就可以学习到东西。
 
-### Error Measure
+## Error Measure
 我们现在看看我们衡量Error的方法：我们之前一直在看g和f是否相同或者接近。我们使用Eout(g, f)来衡量错误，我们考虑的是:
 
 1. 没有见过的数据。
@@ -37,11 +39,12 @@ ideal mini-target是由p(y|x)和err同时决定的，pointwise error通常取最
 
 <div align=center> ![map3](mlfound8/3.png) </div>
 
-### Algorithmic Error Measure
+## Algorithmic Error Measure
 对于不同的任务，错误衡量的具体参数会有不同。而这种不同来自于两种不同的错误会带来不同的后果。错误可以分为false accept和false reject。前者是本来是错误的却将其判定为正确，而后者则是将正确的判定为错误。
 对于不同的实际系统对这两种错误的承受能力不同，比如安全部门的机密档案门禁系统，可能不能承受false accept的错误，因此可以将其权重调的大一些。相反，某些热舞对于false reject的承受能力差，则需要将犯这种错误的惩罚增大。
 在计算错误的时候，能够获得正确的err是最好的，但是实际上我们很难得到真实的error，这是我们往往需要一个友好的方法去接近这个error。
-### Weighted Classification
+
+## Weighted Classification
 我们需要对不同的error添加不同的惩罚，此时可以选用virtual copying方法：将坏的点复制weight遍（模糊）！
 
 > 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！

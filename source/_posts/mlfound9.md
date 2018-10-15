@@ -1,14 +1,15 @@
 ---
-title: 机器学习基石（九）
+title: 09 Linear Regression
 date: 2018-10-11 22:06:54
 tags: machine learning
 categories: ML
 ---
 
-## 09 Linear Regression
+《机器学习基石》系列课程（九）
+
 我们一直在讨论分类问题，并利用分类问题推导了VC Bound以及Learning的可行性问题。Learning任务中也存在很多输出空间是连续的情形，实际上VC Bound同样使用在这些问题上，这一节讨论线性回归问题。
 <!-- more -->
-### Linear Regression Problem
+## Linear Regression Problem
 在我们讨论信用卡发放问题时，我们一直以来的输出都是是或者否的输出空间，如果我们在解决这个问题时，要求输出是一个人的信用程度，我们将根据这个信用程度来决定是否发放信用卡的时候，我们将要解决的问题就是回归问题。
 那么我们的Hypothesis Set应该是什么样的，才能输出连续的内容呢？我们可以考虑为每一个维度的输入属性乘以权重，最终我们找到一个合适的权重向量来实现对信用的预测：
 ```
@@ -31,7 +32,7 @@ h(x) = wT * x
 
 <div align=center> ![error](mlfound9/2.png) </div>
 
-### Linear Regression Algorithm
+## Linear Regression Algorithm
 在求解Regression问题时，实际是最小化Ein(w)。Ein是w的函数，它包含x和y两个向量参数，首先我们将其转化为矩阵表示：
 
 <div align=center> ![matrix](mlfound9/3.png) </div>
@@ -66,7 +67,7 @@ Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高�
 
 只要我们使用好的求解pseudo-inverse矩阵的方法，求解最优w的过程就很简单！
 
-### Generalization Issue
+## Generalization Issue
 上面的Linear Regression算法看起来很简单，可能有些人会产生疑问：这算是机器学习吗？因为他没有看到随着使用数据一步一步优化的过程。
 实际上如果我们仔细推导了求解pseudo-iverse矩阵的过程，我们仍然能够看到这个逐步优化的过程，只不过现在它们都被封装好了，我们感觉很简单就计算出来了。所以我们仍然可以说这是一个Learning的问题：我们能够获得一个很小的Ein，由于问题有一个有限的VC维度，我们能够保证Eout和Ein大致相等。
 
@@ -102,7 +103,7 @@ Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高�
 
 所以，平均来说Eout和Ein的差是2 \* (d + 1) / N。当N够大Learning是能够进行的。
 
-### Linear Regression for Binary Classification
+## Linear Regression for Binary Classification
 
 我们已经学习过线性分类问题，其表示形式和回归问题类似，区别在于其使用了sign函数，对于分类问题，我们的目标是找到一条最优的直线（分类超平面），然而解决这个问题往往是NP问题。
 现在我们学习了线性回归分析，通过前面的求解，我们知道这是一种高效的方法。既然分类问题的输入空间是{-1, +1}，那么能不能使用回归方法来解决分类问题呢？
