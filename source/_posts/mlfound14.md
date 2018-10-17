@@ -1,7 +1,8 @@
 ---
 title: 14 Regularization
 date: 2018-10-16 16:16:39
-tags:
+tags: machine learning
+categories: ML
 ---
 
 
