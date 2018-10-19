@@ -72,7 +72,7 @@ footer:
 # ---------------------------------------------------------------
 uiux:
   # Muilt line slogan is supported.
-  slogan: Hi, nice to meet you.
+  slogan: Hi, nice to meet you!
   # For most link color except post color
   link_color:
   primary_color:

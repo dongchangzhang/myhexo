@@ -1,6 +1,14 @@
 ---
-title: about
+title: About Me
 date: 2018-03-09 11:14:16
 ---
 
-心怀梦想，实力一般，前路迷茫，还需努力啊
+## Edu 
+Harbin Instituce of Technology Master && Bachelor
+
+## Email
+dongchangzhang@gmail.com
+
+## Github
+[Click here to visit my GitHub](https://github.com/dongchangzhang)
+

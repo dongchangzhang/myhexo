@@ -7,7 +7,7 @@ categories: ML
 
 《机器学习基石》系列课程（十一）
 
- 本章将从我们学过的Binary Classification出发，来看一看我们学过的Model这样来完成如Multiclass Classification等更复杂的任务。
+ 本章将从我们学过的Binary Classification出发，来看一看我们学过的Model怎样完成如Multiclass Classification等更复杂的任务。
 
 <!-- more -->
 
