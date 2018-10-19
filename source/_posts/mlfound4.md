@@ -1,7 +1,7 @@
 ---
 title: 04 Feasibility of Learning
 date: 2018-10-08 19:47:22
-tags: machine learning
+tags: ML
 categories: ML
 ---
  

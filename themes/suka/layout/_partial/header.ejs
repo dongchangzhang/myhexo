@@ -1,0 +1,32 @@
+<!-- ## Header ##-->
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #8D8CE9; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 2px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<header>
+    <h1 class="header-title text-center"><a href="<%= config.root %>"><%= config.title %></a></h1>
+    <p class="text-center header-slogan">
+        <% if(theme.uiux.slogan) { %>
+            <% if(Array.isArray(theme.uiux.slogan)) { %>
+                <%- theme.uiux.slogan.join('<br>') %>
+            <% } else { %>
+                <%- theme.uiux.slogan %>
+            <% } %>
+        <% } %>
+    </p>
+
+    <%- partial('_partial/index-nav', {}, {cache: theme.fragment_cache}) %>
+</header>

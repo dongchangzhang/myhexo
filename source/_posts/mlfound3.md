@@ -1,7 +1,7 @@
 ---
 title: 03 Types of Learning
 date: 2018-10-08 16:39:37
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

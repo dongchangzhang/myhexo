@@ -2,7 +2,6 @@
 title: 在windows上编译opencv
 date: 2018-05-03 09:22:03
 tags: opencv
-categories: install
 ---
 一直习惯了使用manjaro的aur搭建编程环境，对于opencv的搭建过程基本就是几条命令就可以完成。这几天使用windows搭建opencv开发环境，竟然用了一天半才编译成功。虽然opencv 的编译过程基本差别不大，但是编译过程中会存在一些小的问题致使编译失败。下面有几个需要注意的事情。
 <!--more-->

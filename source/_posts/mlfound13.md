@@ -1,7 +1,7 @@
 ---
 title: 13 Hazard of Overfitting
 date: 2018-10-15 08:59:10
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

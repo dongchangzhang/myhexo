@@ -1,7 +1,7 @@
 ---
 title: 15 Validation
 date: 2018-10-17 19:19:57
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

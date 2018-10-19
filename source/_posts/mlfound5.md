@@ -1,7 +1,7 @@
 ---
 title: 05 Training Versus Testing
 date: 2018-10-09 12:35:08
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

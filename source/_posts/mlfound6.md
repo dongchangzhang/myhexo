@@ -1,7 +1,7 @@
 ---
 title: 06 Theory of Generalization
 date: 2018-10-10 19:03:21
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

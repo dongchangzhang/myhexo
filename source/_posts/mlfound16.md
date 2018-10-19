@@ -1,7 +1,7 @@
 ---
 title: 16 Three Learning Principles
 date: 2018-10-18 20:43:29
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

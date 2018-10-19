@@ -1,7 +1,7 @@
 ---
 title: 10 Logistic Regression
 date: 2018-10-12 18:37:20
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

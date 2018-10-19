@@ -1,7 +1,7 @@
 ---
 title: 09 Linear Regression
 date: 2018-10-11 22:06:54
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

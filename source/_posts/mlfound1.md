@@ -1,7 +1,7 @@
 ---
 title:  01 The Learning Problem
 date: 2018-10-07 16:21:24
-tags: machine learning
+tags: ML
 categories: ML
 ---
 《机器学习基石》系列课程（一）

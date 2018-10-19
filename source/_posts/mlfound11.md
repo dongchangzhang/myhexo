@@ -1,7 +1,7 @@
 ---
 title: 11 Linear Models for Classification
 date: 2018-10-13 18:06:14
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

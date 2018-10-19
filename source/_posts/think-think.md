@@ -2,7 +2,6 @@
 title: 从一道简单的题反思自己的思维定式
 date: 2018-04-12 21:55:34
 tags: algorithm
-categories: 思考
 ---
 
 今天在Project Euler上做了一道题，题目是这样的：

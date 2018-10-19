@@ -1,7 +1,7 @@
 ---
 title: 12 Nonlinear Transformation
 date: 2018-10-14 19:18:13
-tags: machine learning
+tags: ML
 categories: ML
 ---
 

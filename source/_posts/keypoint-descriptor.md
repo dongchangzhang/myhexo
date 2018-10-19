@@ -1,9 +1,7 @@
 ---
 title: 特征提取过程中的keypoints和descriptors
 date: 2018-04-09 17:39:12
-tags: 
-- 特征提取
-- opencv
+tags: opencv
 ---
 
 在使用SIFT、SURF、ORB等方法对图片进行特征提取和匹配的过程中，基本的工作过程大致如下：

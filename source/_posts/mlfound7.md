@@ -1,7 +1,7 @@
 ---
 title: 07 The VC Dimension 
 date: 2018-10-10 21:06:44
-tags: machine learning
+tags: ML
 categories: ML
 ---
 
