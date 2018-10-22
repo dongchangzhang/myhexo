@@ -7,6 +7,7 @@ tags: ML
 《机器学习技法》系列课程（三）
 
 在上一节我们学习了Dual SVM，它简化了非线性SVM的计算，但是实际上它的计算仍然依赖于特征变换后空间Z的复杂度，本章将引入Kernel Function来解决这一问题。
+
 <!-- more -->
 
 ## Kernel Trick
