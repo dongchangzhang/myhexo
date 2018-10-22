@@ -1,7 +1,7 @@
 ---
 title: 18 Dual Support Vector Machine
 date: 2018-10-21 13:00:44
-tags:
+tags: ML
 ---
 
 《机器学习技法》系列课程（二）
