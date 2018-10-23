@@ -4,7 +4,7 @@ date: 2018-03-09 11:14:16
 ---
 
 ## Edu 
-Harbin Instituce of Technology Master && Bachelor
+Harbin Instituce of Technology - Master and Bachelor
 
 ## Email
 dongchangzhang@gmail.com

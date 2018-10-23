@@ -100,6 +100,8 @@ nav:
     use: false
     link: /search
   pages:
+    Reading:
+      link: /read
     Tags:
       link: /tags/
     About:
