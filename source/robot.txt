@@ -1,0 +1,17 @@
+# hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /tags/
+Allow: /about/
+Allow: /read/
+
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://blog.dongchangzhang.com/sitemap.xml
+Sitemap: http://blog.dongchangzhang.com/baidusitemap.xml
