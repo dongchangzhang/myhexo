@@ -120,8 +120,8 @@ suka_theme:
     line_number: true
     theme: default
 
-# 自动生成sitemap
-sitemap: 
+# sitemap
+sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
