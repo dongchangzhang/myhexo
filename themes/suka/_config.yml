@@ -224,7 +224,7 @@ busuanzi:
   # Site views analytics support either pv or uv
   # will be show at footer
   site_uv:
-    enable: true
+    enable: false
     before: # html tag support
     after: Viewers # html tag support
     divider: '|' # html tag supported, something like '|' ',' '·' even '<br>', if you dont want any divider simply leave it blank,
@@ -403,7 +403,7 @@ vendors:
 fragment_cache: false
 # Theme Version
 #   localStorage cache version
-verison: 1.2.0
+verison: 1.3.0
 old_verison:
   - 0.2.0
   - 0.0.1
@@ -412,3 +412,4 @@ old_verison:
   - 1.0.1
   - 1.1.0
   - 1.1.1
+  - 1.2.0
