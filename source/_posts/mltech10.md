@@ -1,10 +1,10 @@
 ---
-title: 25 Random Forest
+title: 26 Random Forest
 date: 2018-11-18 19:40:38
 tags: ML
 ---
 
-《机器学习技法》系列课程（一）
+《机器学习技法》系列课程（十）
 
 <!-- more -->
 
