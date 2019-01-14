@@ -20,7 +20,7 @@ categories: ML
 如果我们根据Ein选择呢？答案也是否定的，更复杂的模型肯定比简单的模型在拟合已有数据这件事上做的更好，Ein也就更低。然而更复杂的模型的泛化能力会更差，这就导致了Ein更小的模型Eout很有可能更大。
 我们可以用测试集来选择模型，选择Etest好的模型能够得到好的效果，我们可以根据finite-bin Hoeffding来确保这件事是正确的：
 
-<div align=center> ![Etest](mlfound15/1.png) </div>
+<div align=center> ![Etest](1.png) </div>
 
 也就是说如果我们使用训练数据来选择模型，相当于老师用以前来做过的题作为考试题，不能体现学生的学习效果。我们用新的数据来测试系统，就不存在这样的问题。
 
@@ -29,15 +29,15 @@ categories: ML
 ## Validation
 既然如此，我们可以从已有的数据中随机抽取一部分作为选择模型的数据，我们将它称为Validation Set（不能参与训练），而剩下的作为训练集。当然，抽取的Dval必须仍然满足原有数据的分布（iid，也就是说需要随机选择）:
 
-<div align=center> ![validation](mlfound15/2.png) </div>
+<div align=center> ![validation](2.png) </div>
 
 此时，通过训练集训练得到的gm的Eout和Eval满足：
 
-<div align=center> ![eval and eout](mlfound15/3.png) </div>
+<div align=center> ![eval and eout](3.png) </div>
 
 根据我们之前的学习可知，当数据量N越大时，Eout越小，那么我们可以知道在整体数据获得的g的Eout、训练集和验证集的Eout的关系：
 
-<div align=center> ![relation](mlfound15/4.png) </div>
+<div align=center> ![relation](4.png) </div>
 
 选择在Eval表现最好的模型我们能得到Eout表现比较好的模型。
 

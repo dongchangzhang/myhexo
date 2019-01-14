@@ -13,11 +13,11 @@ categories: ML
 ## What is Overfitting
 我们首先从一个例子出发。想象我们在二维平面上有5个数据点，我们需要根据这些数据来学习一个Regression问题。其中，每个点的y都是根据targert f产生的（可能会添加一些噪音），也就是说我们想要学习的线是蓝色的线：
 
-<div align=center> ![bad generalization](mlfound13/1.png) </div>
+<div align=center> ![bad generalization](1.png) </div>
 
 我们使用的方法是学习Z空间中的一条直线，并试图让这些数据点落在直线上。然而我们最终可能学习到的是一条4次曲线，它恰好能让所有的点都落在z空间的直线上，此时Ein为0。然而，明显的是Eout必然很大，这就说明我们学习到的模型泛化能力很差（bad generalization）！
 
-<div align=center> ![overfitting](mlfound13/2.png) </div>
+<div align=center> ![overfitting](2.png) </div>
 
 就像上图那样，如果我们学习的模型的维度很高，远远大于dvc，那么此时学到的就是bad generalization！从dvc=d*vc开始，向右边移动，此时Ein越来越小但是Eout越来越大，此时就是过拟合(Overfitting)，向左边移动，可以称为underfitting！
 
@@ -32,11 +32,11 @@ categories: ML
 ## The Role of Noise and Data Size
 现在我们举一个例子：例子一是使用一个10次target function生产的一些数据，然后添加一些Noise，例子二是一个50次的target function生产的一些数据，不加噪音：
 
-<div align=center> ![case study](mlfound13/3.png) </div>
+<div align=center> ![case study](3.png) </div>
 
 我们看一看从二次的假设空间到10次的假设空间进行学习会发生什么？
 
-<div align=center> ![result](mlfound13/4.png) </div>
+<div align=center> ![result](4.png) </div>
 
 很明显，两个例子的Learning在从g2到g10的过程都发生了overfitting！
 
@@ -44,7 +44,7 @@ categories: ML
 
 我们重新看一看学习2次和10次的Learning Curves，看看我们能发现什么：
 
-<div align=center> ![curves revisited](mlfound13/5.png) </div>
+<div align=center> ![curves revisited](5.png) </div>
 
 我们发现只有在数据量非常大的时候，10次的Learning Model才能获得好的Eout，相反对于2次多项式模型，获得较好的Eout所需要的数据量并不那么过分！
 
@@ -55,7 +55,7 @@ categories: ML
 ## Deterministic Noise
 我们可以通过实验来探讨我们使用的模型复杂度、数据的噪音和数据的数量和Overfit Level有什么关系，现在我们直接来看实验结果：
 
-<div align=center> ![result](mlfound13/6.png) </div>
+<div align=center> ![result](6.png) </div>
 
 对于第一张图，我们模型的复杂度固定为20次，横轴是数据量N，纵轴是添加的噪音的级别。图中红色越深表示Overfitting越严重，蓝色越深表示模型表现越好。我们可以看出，随着噪音级别增大，所需要的数据量N也越多，这有这样才能避免Overffiting。
 对于图二，研究的是数据量和模型复杂度的关系，同样，越复杂的模型需要更多的数据！
@@ -66,7 +66,7 @@ categories: ML
 3. deterministic noise增多。
 4. 模型复杂度增大
 
-<div align=center> ![determinstic noise](mlfound13/7.png) </div>
+<div align=center> ![determinstic noise](7.png) </div>
 
 deterministic noise，也就是我们Learning到的最好的h和目标函数f之间的差异。就如上图所示，我们的target function是蓝色的线，但是我们使用2次模型来fit这个f，此时我们获得红色的线，二者之间灰色的区域就是存在的noise。其表现和随机噪音实际上没有什么区别，二者的区别在于deterministic noise依赖于我们所选择的假设空间，对于每个x，它都是固定的！
 

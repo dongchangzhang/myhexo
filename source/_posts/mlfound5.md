@@ -22,17 +22,17 @@ categories: ML
 
 现在我们考虑该怎样接近这件事，首先我们还是要看一看Ein和Eout的霍夫丁不等式：
 
-<div align=center> ![hoeffding](mlfound5/1.png) </div>
+<div align=center> ![hoeffding](1.png) </div>
 
 我们接下来要做的是尝试寻找一个多项式mh替换M，如果我们能够将这个无限大的M限制在有限的mh以内，由此Learning便为了可能实现的事情了。
 
-<div align=center> ![mh](mlfound5/2.png) </div>
+<div align=center> ![mh](2.png) </div>
 
 ## Effective Number of Lines
 我们首先考虑M这个数是怎么来的。
 我们在使用演算法自由自在地选择h的时候，可能会遇到一些BAD DATA，这些BAD DATA会恶化我们的选择。我们在计算这些BAD DATA发生的概率时使用了union bound方法，即将每一个BAD都or了起来，也就是最终的BAD概率是由每一次BAD概率的加和得到的。这也就意味着我们有一个前提假设是“所有的BAD事件都是没有重叠的”。然而当我们考虑M是无限的时候，union bound是否会失败呢？
 
-<div align=center> ![overlap](mlfound5/3.png) </div>
+<div align=center> ![overlap](3.png) </div>
 
 事实上，就像上图那样，有很多的BAD事件是有重叠的部分的，尤其是那些Eout相近的假设h，此时我们使用union bound来计算BAD的概率，显然是将这些重叠的部分不止一次地重复计算了，由此也导致M变大了。如果我们要计算实际上的M，就要知道这些重叠的部分有多大。
 
@@ -50,37 +50,37 @@ categories: ML
 现在我们使用Dichotomies(二分类)的概念来继续我们的推论。我们设现有的Hypotheses Set H中是一些直线，H中的每一条直线都能够将点标记为‘o’或者‘x’。Dichotomies的Hypotheses Set是经过上述每一条直线标记后的每一点的状态序列(ooxxx..., etc, depend N)。上面我们经过了讨论，可以知道虽然H是无限的，但是我们的Dichotomies H的上限是2 \*\* N。
 我们现在使用Dichotomies H的大小来衡量（或者说替代）M。不过现在它的大小现在还是依赖于我们已经选择好的数据集x1, x2, x3, ...。这在以后的证明过程中可能会带来一些麻烦，所以我们从数据集合整体中任意选择N个数据点，取Dichotomy H的大小的最大值作为M的替代着mh(N):
 
-<div align=center> ![mhn](mlfound5/4.png) </div>
+<div align=center> ![mhn](4.png) </div>
 
 我们将其称为Growth Function（成长函数）。它一定是有限的，上限是2 \*\* N。我们现在看如何计算成长函数：
 1. 一维的点
 一种情况如下图所示：
-<div align=center> ![one dim](mlfound5/5.png) </div>
+<div align=center> ![one dim](5.png) </div>
 mh(N) = N + 1，此时当N很大的时候mh(N) << 2 \*\* N；
 另一种情况：
-<div align=center> ![one dim another](mlfound5/6.png) </div>
+<div align=center> ![one dim another](6.png) </div>
 此时可以计算：mh(N) = 1 / 2 \* N \*\* 2 + 1 / 2 \* N + 1 << 2 \*\* N(when N large)。
 2. 凸形集合（convex sets）
 如果是凸形的封闭曲线的集合对点进行二分类标记，设在曲线内部的点是o，外部的点是x，此时的成长函数是多少呢？
-<div align=center> ![convex sets](mlfound5/7.png) </div>
+<div align=center> ![convex sets](7.png) </div>
 假设我们有一系列的点x1，x2，...，xn。我们使用Convex曲线将其分为两部分：
-<div align=center> ![convex split](mlfound5/8.png) </div>
+<div align=center> ![convex split](8.png) </div>
 我们可以计算得到mh(N) = 2 \*\* N。
 
 ## Break Point
 上文中我们举出了几个简单的例子观察成长函数：
 
-<div align=center> ![sum](mlfound5/9.png) </div>
+<div align=center> ![sum](9.png) </div>
 
 如果现在我们使用成长函数mh(N)替换M：
 
-<div align=center> ![sum](mlfound5/2.png) </div>
+<div align=center> ![sum](2.png) </div>
 
 那么，当mh(N)是多项式的时候，那么是可以替换的，此时<=符号是成立的，但是如果mh(N)是指数形式的，就不能肯定了。我们的问题是对于平面的假设或者一般的Perceptrons，mh(N)是多项式的吗？
 
 我们知道对于2D perceptrons，其grouth function的上界是2 \*\* N，也就是从某一个点开始，有一些情况是无法分类的，我们把这种点称为Break Point。从Break Point我们可以看到一些希望。
 
-<div align=center> ![breakpoint](mlfound5/10.png) </div>
+<div align=center> ![breakpoint](10.png) </div>
 
 通过对Break Point进行观察，我们可以提出一种假说：成长函数的成长速度和Break Point是有关系的，都是和N的（break point - 1）次幂方有关的。如果我们真的能够证明这件事，我们只要找到了Break Point，我们就能证明Learning的可行性！
 

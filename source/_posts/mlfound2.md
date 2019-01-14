@@ -20,9 +20,9 @@ x = (x1, x2, x3, x4, ..., xd)
 w = (w1, w2, w3, ..., wd)
 ```
 我们设定一个阈值threshold，当所有特征和权重乘积的和大于threshold时，可认为是被接受的，否则则是被拒绝的。用数字来表示可以认为前者为1，后者为-1。用数学表示该公式为h(x):
-<div align=center>![hx](mlfound2/1.png)</div>
+<div align=center>![hx](1.png)</div>
 当然我们还可以将上面的公式进一步化简，即将threshold当成一个属性，其权重为1，然后我们将它用向量来表示，具体过程如下：
-<div align=center>![hx-format](mlfound2/2.png)</div>
+<div align=center>![hx-format](2.png)</div>
 这样做以后计算过程就变成了两个向量的内积了
 
 上面描述了Perceptron function是什么，那么它们长什么样子呢？在R2（二维空间）中：
@@ -35,21 +35,21 @@ h(x) = sign(w0 + w1 * x1 + w2 * x2)
 Perceptron Hypothesis Set中包含了无数条（infinite）直线（或超平面），我们需要从中选出一条最适合的'g'。我们不知道f，唯一知道的是数据是由f产生的，理想中的g必须让我们看过的资料的结果和f产生的一模一样。但是g太多了，计算起来太困难了。
 我们的一个解决方法是从任意一个g0开始（其权重为w0），每次调整使其越来越好，最终找到一条没有更多错误的g。
 例如：我们由w0开始，使用数据集中犯错的点来纠正它。当我们的向量是wt时，我们发现一个错误点是(xn, yn)，sign(wt \* xn) != yn; 此时我们的纠正方式如下：
-<div align=center>![wt](mlfound2/3.png)</div>
+<div align=center>![wt](3.png)</div>
 上述方法的本质是让每一次w的更新都能使得直线向正确的方向移动。最终找不到更多错误的时候就找到最终的g了。
 
 ## Guarantee of PLA
 然而，我们面临的一个问题是PLA真的能顺利进行吗？PLA如果最终能够停止（找到了最好的g），那么前提条件是数据集必须线性可分（Linear Separability），我们假设我们所给的数据集是线性可分的，那么此时我们能否证明PLA一定可以停止吗？
 可以这样思考，当存在一个完美的wf，使得yn = sign(wft \* xn) (wft是wf的转置),此时得到的g就是最好的。此时必定满足：
-<div align=center>![wf](mlfound2/4.png)</div>
+<div align=center>![wf](4.png)</div>
 此外，从数学的角度说，两个单位向量内积越大，则说明两个向量越接近。那么有下面的计算：
-<div align=center>![wfwt+1](mlfound2/5.png)</div>
+<div align=center>![wfwt+1](5.png)</div>
 可以说明，每一次更新wf和wt的乘积都是越来越大的（注意：因为没有考虑wf和wt的长度，所以此时不能说明wf和wt是在靠近）。因此我们考虑PLA算法的一个重要的性质：仅仅针对错误点更新，因此，必定有：
-<div align=center>![signynerror](mlfound2/6.png)</div>
+<div align=center>![signynerror](6.png)</div>
 我们再看wt+1是什么样子的：
-<div align=center>![growthslowly](mlfound2/7.png)</div>
+<div align=center>![growthslowly](7.png)</div>
 可以说明wt增大缓慢，成长值只会受到xn项影响。xn \*\* 2最多长max||xn|| \*\* 2。我们计算将wf和wt正规化后内积：
-<div align=center>![signynerror](mlfound2/8.png)</div>
+<div align=center>![signynerror](8.png)</div>
 随着次数的增大，越来越大，即使wt和wf越来越靠近。因此对于线性可分的数据PLA最终是可以停止的。
 
 ## Non-Separable Data

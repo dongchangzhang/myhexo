@@ -24,17 +24,17 @@ categories: ML
 也就是说，不论对我们的Linear Regression还是Logistic Regression来说，我们都将其输出限制为{-1， +1}。当然对于Logistic来说，它本来就是用来分类的，这是一件容易办到的事。而{-1，+1}只是两个特别的实数，那么直观看起来Linear Regression也是可以做到的。
 
 在我们想办法解决这件事之前，我们首先将这三者的Error Function先整合统一起来：
-<div align=center> ![error](mlfound11/1.png) </div>
+<div align=center> ![error](1.png) </div>
 
 下面我们就来看看这些Error Function和ys的关系是怎样的。我们先看看ys的物理意义是什么：y代表正确性， s代表分数。我们希望其值越大越好，越大表示越好，y是正数表示是正确的，否则表示是不正确的。我们想办法把Error Function画在平面上，我们令横轴是ys纵轴是error：
 
-<div align=center> ![error image](mlfound11/2.png) </div>
+<div align=center> ![error image](2.png) </div>
 
 对于线性分类算法，其表现为蓝色的线，而线性回归则表现为红色的线。我们可以看到在ys小的时候（小于2），其表现很好，但是在比较大的时候，比如ys=3时，它会认为err很大，但实际上在分类任务上是一个较好的情况。对于逻辑回归问题，我们一般将其进行一个换底的操作将其error曲线进行缩放，即把ln换成log2，从而能够得到如图那样的结果：一个恰好在0/1error上方的error。
 
 实际上也就是说通过缩放的Logistic Error和Linear Regression Error是0/1Error的一个上界：
 
-<div align=center> ![upper bound](mlfound11/3.png) </div>
+<div align=center> ![upper bound](3.png) </div>
 
 从而，如果我们能把logistic中的error求的很好，对于0/1问题我们也能做的不错！当然我们用平方误差也符合，只不过linear regression的error是一个更宽松的上界。
 
@@ -49,11 +49,11 @@ categories: ML
 我们学习过两种通过一次次迭代来进行优化的方案：一种是PLA方法，每次都通过更新来寻找一个更好的向量w；另一种是在Logistic Regression中使用的梯度下降的方法。
 然而，我们知道在数据是现行可分的情况下PLA算法的迭代过程是非常快的，由于每次使用一个错误的点，每一次迭代的时间复杂度是O(1)的，但是逻辑回归则需要检查所有的数据才能进行一轮迭代，即为O(n)的时间复杂度。那么该怎样提高逻辑回归中Gradient Descent的效率呢？
 
-<div align=center> ![gd](mlfound11/4.png) </div>
+<div align=center> ![gd](4.png) </div>
 
 我们一个方法就是去掉求和，随机选取一个点来进行Gradient Descent，即Stochastic Gradient Descent(SGD)。
 
-<div align=center> ![sgd](mlfound11/5.png) </div>
+<div align=center> ![sgd](5.png) </div>
 
 我们把真是的梯度换为随机的梯度，那么在足够多的迭代次数之后，平均的随机梯度和平均的真是梯度是大致相等的。SGD很简单而且计算量少，在大数据和在线学习上有很大的用处，缺点是不太稳定。
 

@@ -21,7 +21,7 @@ tags: ML
 
 我们将添加了这些参数un的演算法称为Weighted Base Algorithm，如果某个点很重要，就为其添加较大的un权重，其需要最小化的Ein为：
 
-<div align=center> ![ein to minimize](mltech08/1.png) </div>
+<div align=center> ![ein to minimize](1.png) </div>
 
 对于这样的Weighted-base问题，我们在之前的学习中就有所接触，我们在SVM以及逻辑回归中也使用了类似的方法。对于SVM，其添加的un，最终会移动到参数α的上界。在SGD的LR算法中un可以决定抽样的比例。
 
@@ -29,7 +29,7 @@ tags: ML
 
 考虑在两轮中使用un(t)和un(t+1)获得的gt和gt+1。如果我们选出的gt在使用权重un(t+1)时效果越差，那么gt和与gt类似的假设就都不会被选择，这也就说明了gt+1和gt差别就会很大。那么我们从全局上考虑，如果让所有的g整体上表现最好，那么让其发生的更随机，就类似丢硬币：概率为1/2：
 
-<div align=center> ![idea](mltech08/2.png) </div>
+<div align=center> ![idea](2.png) </div>
 
 让在gt下un(t+1)正确的和错误的点一样多！
 
@@ -37,7 +37,7 @@ tags: ML
 ## Adaptive Boosting Algorithm
 上一节中，我们讨论了optimal re-weighting，其意义是首先将手上的gt的错误率a计算出来，然后把错误的点做（1-a）比例的放缩，然后把正确的点做a的放缩。现在我们定义一个新的比例因子来代替上面的a：
 
-<div align=center> ![new factor](mltech08/3.png) </div>
+<div align=center> ![new factor](3.png) </div>
 
 这样就能把错误放大，正确缩小了，这样就能专注于错误的数据！
 
@@ -48,11 +48,11 @@ tags: ML
 
 对于第一个问题，u1 = 1 / N。对于第二个问题，我们肯定不能采用同等权重的方案，因为在这里有的g做得好，但是同样存在g做的很糟糕，他们的比例基本是随机的。提出该算法的作者则在每次update un时都自动计算每个g的比例系数：αt=ln("方片")，其意义表示：如果gt越好，那么αt越大，如果犯错的概率为1/2，则其起不到作用αt=0，如果犯错概率为0，则这一个g就能完美完成任务，则αt为无穷大。这就是我们这一节中要了解的Adaptive Boostring（AdaBoost）Algorithm：
 
-<div align=center> ![adaboost](mltech08/4.png) </div>
+<div align=center> ![adaboost](4.png) </div>
 
 该算法的具体过程如下：
 
-<diva align=center> ![adaboost - code](mltech08/5.png) </div>
+<diva align=center> ![adaboost - code](5.png) </div>
 
 对于AdaBoost，我们可以从VC Bound的角度来考虑其复杂度，这里不再具体解释。这里有一个结论：如果其中的g能够比胡乱猜要做得好（错误率小于1/2）就能够保证在T = O（logN）次迭代后让Ein(G)很小，并且Eout可以做到基本小于Ein(G)。
 

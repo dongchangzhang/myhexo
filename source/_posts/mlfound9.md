@@ -25,45 +25,45 @@ h(x) = wT * x
 上面的h(x)和Perceptron是很类似的，区别是后者有sign函数，将每个数值取为了正负1。
 那么Linear Regression在空间中是什么样子的呢？在二维空间中，它是一条直线，而在三维（或高维）空间中，则是一个超平面。我们的Learning任务，实际就是在寻找这条（个）直线（超平面）。
 
-<div align=center> ![see](mlfound9/1.png) </div>
+<div align=center> ![see](1.png) </div>
 
 在回归问题中，一般使用平方误差（Squared error）作为Error的衡量方法，即数据在Learning后输出的结果和实际结果差值的平方。这个方法可以同
 时用在Ein和Eout上。Learning的过程就是最小化这个Squared Error的过程。
 
-<div align=center> ![error](mlfound9/2.png) </div>
+<div align=center> ![error](2.png) </div>
 
 ## Linear Regression Algorithm
 在求解Regression问题时，实际是最小化Ein(w)。Ein是w的函数，它包含x和y两个向量参数，首先我们将其转化为矩阵表示：
 
-<div align=center> ![matrix](mlfound9/3.png) </div>
+<div align=center> ![matrix](3.png) </div>
 
 Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高等数学可知，在最小值点，Ein(w)的梯度为0，我们找到了这一点的w：wlin，我们也就解决了问题。
 
-<div align=center> ![show](mlfound9/4.png) </div>
+<div align=center> ![show](4.png) </div>
 
 我们现在求解Ein(w)的Gradient：∇Ein(w) ，将平方项展开，并将一些系数用简单的A、b、c表示：
 
-<div align=center> ![∇Ein](mlfound9/5.png) </div>
+<div align=center> ![∇Ein](5.png) </div>
 
 求Ein的梯度，也就是求w的导数。如果w是一个变量，那么容易求解：
 
-<div align=center> ![w is var](mlfound9/6.png) </div>
+<div align=center> ![w is var](6.png) </div>
 
 当w是一个vector时，实际上在求解之后和w是变量的时候具有相同的形式：
 
-<div align=center> ![w is vector](mlfound9/7.png) </div>
+<div align=center> ![w is vector](7.png) </div>
 
 我们现在的任务就变成了求Ein梯度为0时的w了：
 
-<div align=center> ![task](mlfound9/8.png) </div>
+<div align=center> ![task](8.png) </div>
 
 如果X是可逆的就很容易，通过在等式两边乘以逆矩阵，我们就能够得到唯一的解(大部分情况都是可逆的，因为数据N远大于矩阵维度d+1，否则我们可以使用伪逆矩阵pseudo-inverse，很多软件都实现了这个方法，使用pseudo-inverse求解）。如果X不可逆，那么就会有很多解：
 
-<div align=center> ![invertible or singular](mlfound9/9.png) </div>
+<div align=center> ![invertible or singular](9.png) </div>
 
 我们用X+表示pseudo-inverse，那么最终通过计算这个伪逆矩阵，就能得到需要的权重向量：
 
-<div align=center> ![invertible or singular](mlfound9/10.png) </div>
+<div align=center> ![invertible or singular](10.png) </div>
 
 只要我们使用好的求解pseudo-inverse矩阵的方法，求解最优w的过程就很简单！
 
@@ -74,12 +74,12 @@ Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高�
 事实上，我们可以利用一种比VC Dimension更简单的方法来证明这个问题：通过比较Ein的平均和Eout的平均。当然，这里只会提到其中重要的几个步骤（或思想）：
 
 我们将求得的Wlin代入，来化简Ein：
-<div align=center> ![average](mlfound9/12.png) </div>
+<div align=center> ![average](12.png) </div>
 
 我们将XX+称为帽子矩阵（hat matrix H），那么化简以后，Ein取决于帽子矩阵和y。
 我们从几何学的角度来看这个问题：
 
-<div align=center> ![hat matrix](mlfound9/13.png) </div>
+<div align=center> ![hat matrix](13.png) </div>
 
 现在我们假设我们待解决的问题是一个N维空间的问题：其中，ŷ都是我们求得的结果，而y是实际的结果。而令Ein最小化就是让y和ŷ最小。当前我们还不知道最好的w在哪，因为ŷ=Xw，那么我们将所有的w和X计算乘积以后会展开成一个超平面（上面粉色部分），我们让Ein最小只需要让ŷ是y在这个超平面的投影即可，当然我们还需要考虑ŷ的长度，但是很容易知道只要y-ŷ垂直与这个超平面的即可。那么帽子矩阵H就是把任何向量y都头应到这个超平面上，而I - H就是求y - ŷ。
 
@@ -87,19 +87,19 @@ Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高�
 
 如果现在不是理想状态，而是包含Noise：
 
-<div aling=center> ![noise H](mlfound9/14.png) </div>
+<div aling=center> ![noise H](14.png) </div>
 
 此时：
 
-<div aling=center> ![ein](mlfound9/15.png) </div>
+<div aling=center> ![ein](15.png) </div>
 
 我们就能得到Ein平均的情况，同理我们也能计算Eout的平均，只不过很复杂。
 
-<div aling=center> ![ein and eout](mlfound9/16.png) </div>
+<div aling=center> ![ein and eout](16.png) </div>
 
 我们此时可以画出Ein和Eout的平均的曲线：
 
-<div aling=center> ![curve](mlfound9/17.png) </div>
+<div aling=center> ![curve](17.png) </div>
 
 所以，平均来说Eout和Ein的差是2 \* (d + 1) / N。当N够大Learning是能够进行的。
 
@@ -110,7 +110,7 @@ Ein(w)实际上是连续的凸函数，也就意味着其有最小值，由高�
 直观上看是可以的，对于-1的类别，我们的回归方法的输出可能是一个负数，或者说当输出是负数的时候我们将其看作是负类；相反，在输出正的时候可以看作正类。为了深入解释这个问题，我们现在观察两种问题的Error的不同。
 对于分类问题，我们往往使用pointwise的方案，而回归问题一般是平方误差，这也就导致了前者在数学上的表现是一段段梯形的表示（不会平滑连续），而后者则是平滑的凸函数。
 
-<div align=center> ![relation of errors](mlfound9/11.png) </div>
+<div align=center> ![relation of errors](11.png) </div>
 
 也就是说，分类的error总是小于或者等于回归的error！由此，我们可以使用Regression求得的最优权重向量wlin初始化PLA或者Pocket算法，然后再由PLA或Pocket进一步找到最优的解，这样就能很大程度上提高效率。
 

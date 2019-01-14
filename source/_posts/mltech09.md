@@ -24,7 +24,7 @@ tags: ML
 
 我们可以将决策树表示为如下形式：
 
-<div align=center> ![decision tree](mltech09/1.png) </div>
+<div align=center> ![decision tree](1.png) </div>
 
 这是一种递归的表示方案，其中C表示根节点的假设取值一共有C个，从而有C个子决策树。
 
@@ -39,11 +39,11 @@ tags: ML
 
 我们提到决策树构建需要解决4个问题，上面我们已经说明C&RT的分支数（C）是2；而在每一个节点对数据进行拆分的方法是decision stump，也就是根据某一个简单的条件，将数据分为两部分。而决定使用哪一个条件来拆分数据的方法是引入一个纯净度（purifying）来衡量条件的好坏，与之相对的则是不纯净度（impurify），我们一般通过最小化不纯净度来决定条件的选择：
 
-<div align=center> ![bi-branching](mltech09/2.png) </div>
+<div align=center> ![bi-branching](2.png) </div>
 
 上面的表达式是不纯净度的表达式，其表示在假设h的条件下两个分支不纯净度的加和，如果b(x)越小，说明在该结点这个假设h越好。
 
-<div align=center> ![ein](mltech09/3.png) </div>
+<div align=center> ![ein](3.png) </div>
 
 如上图所示，我们提到C&RT的每一个叶子都是常数，那么如果解决回归问题，可以使用平方误差，如果是分类问题，可以使用01误差（看大多数相同的数据和其他数据的差）。然而，我们进一步讨论分类问题，会发现这种衡量方法只会考虑数量最多的数据，而其他数据不会被考虑到，因此可以使用Gini指数来作为分类问题的求解方法(它也更适合用于分类问题)：它考虑了所有数据。
 

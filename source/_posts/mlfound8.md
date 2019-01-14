@@ -16,14 +16,14 @@ Noise同时存在于x与y：仍然是银行信用卡发放问题，有可能是�
 那么我们之前讨论过的VC Bound在Noise的条件下还能作用很好吗？
 在回答这个问题之前，我们回忆在推导VC Bound的过程中最关键的是什么：实际上在我们证明时，都是从瓶子中抓出一把球来估计橘黄色球的数目，如果有Noise，那么橘色的弹珠就是犯错误的地方（把每个弹珠看作是x，颜色就是假说的预测和f的实际结果是否相同）。
 
-<div align=center> ![marbles](mlfound8/1.png) </div>
+<div align=center> ![marbles](1.png) </div>
 
 如果现在瓶子中有一个球的颜色是不停在变动的，不过瓶子中球颜色在整体上还是符合某一种分布，我们在估计的时候可以记录抓出时所有球的瞬时颜色，实际上仍然能够做到对橘黄色弹珠的估计，只不过现在不是一个确定的估计，而是一个概率估计。
 对于VC Bound，我们仍然能够使用会变色的弹珠这种情况再推导一次，如果满足x的分布是P(x)且独立同分布(i.i.d.)，y按P(y|x)独立同分布，那么能够保证：即使有噪音，VC Bound还是能够表现的很好，之前的证明仍然是成立的。
 我们将p(x|y)称为目标分布，可以看作是理想的和一些噪音的组合。同样对于没有噪音的，我们可以将它看作是特殊的p(y|x)的分布。
 现在我们的Learning流程可以如下表示：
 
-<div align=center> ![map](mlfound8/2.png) </div>
+<div align=center> ![map](2.png) </div>
 
 VC Bound仍然可行，同时，我们的Pocket算法也能得到解释：我们尽量让Ein越小越好，在有噪音的前提下仍能够让Ein与Eout大致相等，也就可以学习到东西。
 
@@ -37,7 +37,7 @@ VC Bound仍然可行，同时，我们的Pocket算法也能得到解释：我们
 很多时候我们衡量错误的时候都能够一个点一个点来计算，我们把这种称为pointwise error。我们衡量错误有很多方式，有两种重要的方法，其一是用于分类的01错误（上面的）；另一个就是squared error，一般用在回归问题，来看和目标距离的远近。
 ideal mini-target是由p(y|x)和err同时决定的，pointwise error通常取最大的P(y|x)，而平方误差通常取的是期望值。现在我们引入了error measure，我们就能衡量g的好坏了，现在的Learning Map如下：
 
-<div align=center> ![map3](mlfound8/3.png) </div>
+<div align=center> ![map3](3.png) </div>
 
 ## Algorithmic Error Measure
 对于不同的任务，错误衡量的具体参数会有不同。而这种不同来自于两种不同的错误会带来不同的后果。错误可以分为false accept和false reject。前者是本来是错误的却将其判定为正确，而后者则是将正确的判定为错误。

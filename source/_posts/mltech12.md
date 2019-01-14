@@ -10,7 +10,7 @@ tags: ML
 ## Motivation
 我们已经了解了Perceptron，将多个Perceptron进行线性组合，其数学表示为：
 
-<div align=center> ![](mltech12/1.png) </div>
+<div align=center> ![](1.png) </div>
 
 其包含两层权重:wt和αt。此时它能够实现更复杂的边界划分，比如，它能够实现AND、OR、NOT等边界的划分。
 
@@ -28,7 +28,7 @@ tags: ML
 
 然后我们看神经网络中间部分。此时它并不能使用任意的激活函数。首先，我们不能使用线性的激活函数，如果我们使用了，我们又何必将模型搞得这么复杂但是最后能力却很差。同样，也很少使用sign函数，因为这个函数的输出是离散的，它的值域为{-1， 1}，所以它是不可导的，从而导致很难最佳化。很多情况，我们使用tanh：
 
-<div align=center> ![](mltech12/2.png) </div>
+<div align=center> ![](2.png) </div>
 
 它与逻辑回归中的函数θ（sigmoid）很像，tanh(x) = 2θ(2x) - 1，即相当于对sigmoid进行放缩。
 
@@ -40,29 +40,29 @@ tags: ML
 
 神经网络的Error可以表示如下：
 
-<div align=center> ![](mltech12/3.png) </div>
+<div align=center> ![](3.png) </div>
 
 对于最后一层的输出，其error关于对应weight的偏导数，以及任意一个神经元的偏导数可以表示为如下：
 
-<div align=center> ![](mltech12/4.png) </div>
+<div align=center> ![](4.png) </div>
 
 其中sn代表当前神经元的输入。对于任意神经元，其中我们用δj来表示当前神经元的偏导数。很容易知道：
 
-<div align=center> ![](mltech12/5.png) </div>
+<div align=center> ![](5.png) </div>
 
 那么对于其他任意神经元的δj该怎样表示呢？首先我们看相邻的输入si的关系：
 
-<div align=center> ![](mltech12/6.png) </div>
+<div align=center> ![](6.png) </div>
 
 由此，我们可以推导相邻层的导数关系如下：
 
-<div align=center> ![](mltech12/7.png) </div>
+<div align=center> ![](7.png) </div>
 
 这也就说明了当前层相对于误差的导数可以从后一层的传播（误差反向传播）。
 
 最后，我们总结误差反向传播算法：
 
-<div aling=center> ![](mltech12/8.png) </div>
+<div aling=center> ![](8.png) </div>
 
 值得注意的是，1到3是可以并行执行很多次然后计算一个平均来执行4——这也就是mini-batch。
 
@@ -77,7 +77,7 @@ tags: ML
 
 解决这个问题一般有两个选择：1是在L2的基础上添加缩放；2是早一点结束训练过程，优化过程不要持续那么久。
 
-<div align=center> ![](mltech12/9.png) </div>
+<div align=center> ![](9.png) </div>
 
 > 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习技法》课程！
 

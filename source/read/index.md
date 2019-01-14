@@ -1,5 +1,7 @@
 ---
-title: What I Read
+title: What I read
+date:
+layout: links
 ---
 
 

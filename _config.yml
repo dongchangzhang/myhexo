@@ -112,7 +112,7 @@ jsonContent:
 # suka
 suka_theme:
   search:
-    enable: false
+    enable: true
     path: search.json
     field: post # Page | Post | All. Default post
   prism:

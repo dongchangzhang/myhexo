@@ -60,7 +60,7 @@ categories: ML
 2. 线性回归。
 3. 逻辑回归。
 
-<div align=center> ![models](mlfound16/1.png) </div>
+<div align=center> ![models](1.png) </div>
 
 介绍了三种工具：
 
@@ -76,7 +76,7 @@ categories: ML
 
 接下来，还有更多的内容要去学习，加油！
 
-<div align=center> ![future](mlfound16/2.png) </div>
+<div align=center> ![future](2.png) </div>
 
 > 文章内容和图片均来自“国立台湾大学林轩田老师”的《机器学习基石》课程！
 

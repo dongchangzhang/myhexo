@@ -53,7 +53,7 @@ dvc取其它数值的，可以有其它的表示方式。
 
 如果dvc大于d+1，那么对于d+1个点，必然都能够shatter。我们可以取d+1个点：
 
-<div align=center> ![x](mlfound7/1.png) </div>
+<div align=center> ![x](1.png) </div>
 
 如果对于任何一个y = [y1， y2，...，yd+1]T，都能找到一个w，令sign(xw) = y即可。因为x是可逆矩阵，因此很简单，直接两边乘以X的逆矩阵就可以。从而我们知道d+1个点都能够被shatter，从而得证。
 
@@ -78,19 +78,19 @@ dvc取其它数值的，可以有其它的表示方式。
 
 现在，我们想更深入了解VC Dimension的意义。我们首先对VC Bound重新描述。
 
-<div align=center> ![duita](mlfound7/2.png) </div>
+<div align=center> ![duita](2.png) </div>
 
 VC Bound实际上说明了坏事请发生的概率很小，我们使用δ表示坏事情发生的概率，那么1 - δ就是好事情发生的概率。那么好事情发生的概率就会很大很大。我们对其做一个简单的代换：
 
-<div align=center> ![good](mlfound7/3.png) </div>
+<div align=center> ![good](3.png) </div>
 
 我们最终得到了e，其表示Ein和Eout的差值的绝对值大小，由此，我们能够推出Ein和Eout差值的上界，更准确地说，我们有很大的机会将Ein和Eout的差值限制在这个范围内。我们一般更加重视上界的作用。这个公式表明，我们的模型有多么强，那么在generate这个模型的时候，就要付出多大的代价（Penalty for Model Complexity）。通常表示为：Ω(N,H,δ)。
 
-<div align=center>![mlfound7/4.png](mlfound7/4.png) </div>
+<div align=center>![4.png](4.png) </div>
 
 我们可以画出这样一张图：
 
-<div align=center> ![mlfound7/5.png](mlfound7/5.png) </div>
+<div align=center> ![5.png](5.png) </div>
 
 横轴是dvc，纵轴是Error。随着VC维度的升高，模型的Ein越来越小，Eout先小后大，而模型的复杂度则越来越大。而最好的模型则在中间。我们未来会利用这张图来想办法设计更好的机器学习演算法。
 

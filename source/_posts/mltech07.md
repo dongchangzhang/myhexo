@@ -49,24 +49,24 @@ tags: ML
 
 如果我们使用了多个假设函数，甚至是很简单的uniform blending，我们最终获得的结果都要比使用单一的hypothesis要好，对于这一点，我们可以从理论上给予证明，证明方法就是看我们单一的g和f的差距和G和f的差距的大小，如果前者比后者要大，则证明了我们的观点，详细的证明方法如下：
 
-<div align=center> ![prove](mltech07/1.png) </div>
+<div align=center> ![prove](1.png) </div>
 
 上图是证明的过程和结论，其结论说明了单个g和f的差值的平方等于G和f的差值的平方加上一个正数，这也就支持了我们的理论。
 
 最后，我们考虑如果在取平均的表达式中T趋近无穷大，也就是说我们利用了几乎所有的hypothesis时的情况。此时：
 
-<div align=center> ![infinite](mltech07/2.png) </div>
+<div align=center> ![infinite](2.png) </div>
 
 此时我们能够降低方差（variance），从而得到更好的性能。
 
 ## Linear and Any Blending
 刚刚我们同等对待每一个hypothesis，那么现在我们考虑Linear Blending，它为每一个假设乘以一个权重αt：
 
-<div align=center> ![lb](mltech07/3.png) </div>
+<div align=center> ![lb](3.png) </div>
 
 看起来我们很难求解，但是我们可以对比使用特征转换的线性回归问题，发现他们是很相似的：
 
-<div align=center> ![lb and lrt](mltech07/4.png) </div>
+<div align=center> ![lb and lrt](4.png) </div>
 
 所以，我们求解的线性的blending问题，可以当做是一个线性模型附带一些约束条件，并且将这些hypothesis当做是特征转换即可。不过实际操作中，对于αt>=转换函数）。
 

@@ -17,7 +17,7 @@ categories: ML
 ## Probability to the Rescue
 我们可以从其它场景入手，推论出一些未知的关系：
 
-<div align=center> ![green_red_bin](mlfound4/1.png) </div>
+<div align=center> ![green_red_bin](1.png) </div>
 
 我们可以想象有这样一个瓶子：
 1. 瓶子中有很多橘黄色和绿色的弹珠。
@@ -32,7 +32,7 @@ categories: ML
 
 现在问题就转换为了u和v是否相等的问题了。然而，二者可能不相等，因为可能抓出的都是绿色，而瓶子中都是橘黄色的；当然，也可能u和v是很接近的。那么一般来讲，v是否能够表示u呢？为了解决这个问题，我们需要使用到霍夫丁不等式（Hoeffding's Inequality):
 
-<div align=center> ![hoeffding](mlfound4/2.png) </div>
+<div align=center> ![hoeffding](2.png) </div>
 
 该不等式说明了这样一个问题：对于一个很大的N，v和u相差很小（绝对值小于e)。那么根据这个不等式，我们也可以说，当从瓶子中抓取的弹珠很多的时候，v和u相等是大概率可能正确的（PAC：probably approximately correct）。
 
@@ -44,36 +44,36 @@ categories: ML
 2. 对瓶子中任意一个球x，如果h(x) == f(x)，那么这个球就是橘黄色的。
 3. 对瓶子中任意一个球x，如果h(x) != f(x)，那么这个球就是绿色的。
 
-<div align=center> ![h-o-g](mlfound4/3.png) </div>
+<div align=center> ![h-o-g](3.png) </div>
 
 我们所需要验证的是，当瓶子中的数据数目N很大时，瓶子中的橘黄色球的比例和不在瓶子中的橘黄色球（瓶子中只是我们用来学习的数据，瓶子外还有很多未知的数据）的比例相等这个事件是否PAC。
 为了方便后续的表示，我们定义两个变量：Ein(h)和Eout(h)，分别用来表示已有数据内的错误概率和未知数据的错误率。
 
-<div align=center> ![eineout](mlfound4/4.png) </div>
+<div align=center> ![eineout](4.png) </div>
 
 那么类比上一部分的小球实验，对于一个确定的假说h，在“big data”的条件下，根据霍夫丁不等式，我们可以推论出Ein(h)和Eout(h)是很接近的。
 
-<div align=center> ![hoeffdingeineout](mlfound4/5.png) </div>
+<div align=center> ![hoeffdingeineout](5.png) </div>
 
 那么，如果我们选择一个Ein(h)很小的假说h，我们就可以说 “g = h”是PAC。也就是说，在Learning中，在我们已有的数据上g和f是接近的，那么在未知的数据上，g和f很接近是PAC的。
 
 ## Connection to Real Learning
 不过在实际学习任务中，h并不是确定的，我们有很多很多的h等待我们去选择。
 
-<div align=center> ![multiple h](mlfound4/6.png) </div>
+<div align=center> ![multiple h](6.png) </div>
 
 在这种情况下，如果我们验证的所有假说h中有一个hM竟然能够达到最佳的效果（全是绿色的球），但是实际上瓶子中还是有大量的橘黄色的球, 或者说Ein(h)和Eout(h)相差很远。这时候我们根本不能认定这个假说hM是最好的。这件事在概率上是很有可能发生的，而且还是有很大概率会发生的。举个例子，我们的瓶子中不再放球了，而是放硬币：
-<div align=center> ![coin](mlfound4/7.png) </div>
+<div align=center> ![coin](7.png) </div>
 那么如果每次抛5次，一共抛150次，我们可以计算出出现5次一样的面的概率竟然是99%。
 霍夫丁不等式只是保证了绝大部分是对的，但是仍然会存在坏的现象，只是几率很小而已。而我们的选择则进一步恶化了这种几率。
 对于出现上述情况的数据，我们将其称为BAD DATA，也就是说，只要存在一次BAD，那么这些数据就是BAD。我们只有在没有BAD的数据中Learning才能得到正确的结果。
 我们从hoeffding不等式可知，这些BAD的数据出现的概率是很小的，
 
-<div align=center> ![bad not many](mlfound4/8.png) </div>
+<div align=center> ![bad not many](8.png) </div>
 
 在我们的演算法自由自在选择数据时候，总共的BAD数据出现的概率：
 
-<div align=center> ![all bad](mlfound4/9.png) </div>
+<div align=center> ![all bad](9.png) </div>
 
 可以得出，其也是很小很小的，因此在有限的h中，不管M、N是多少，选择h都是安全的。也就是在有限的h中，数据足够多，我们就能学习！也就是在这种情况下，机器学习是成立的。
 

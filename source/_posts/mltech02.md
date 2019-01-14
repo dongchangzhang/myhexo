@@ -22,19 +22,19 @@ tags: ML
 
 首先，我们做出这个变换所使用的关键工具是拉格朗日乘数法（Lagrange Multipliers）。对于这个方法我们并不陌生，除了在本科阶段的高等数学课堂上我们见过它的身影之外，在“机器学习基石”系列内容中，我们在介绍正则化（Regularization）时也使用了这个方法：我们在wTw <= C这个条件的限制下，最小化Ein(w)，我们将其使用拉格朗日乘数法将其等价为最小化Eaug：
 
-<div align=center> ![regularization](mltech02/1.png) </div>
+<div align=center> ![regularization](1.png) </div>
 
 同样，我们也用同样的方法对对偶SVM进行处理，我们将N个条件转化为N个项的和，每一项的系数是α（SVM相关的文献通常是α，这与正则化不同，后者使用λ）。下图是原始的SVM问题：
 
-<div align=center> ![origin](mltech02/2.png) </div>
+<div align=center> ![origin](2.png) </div>
 
 我们使用拉格朗日乘数法：
 
-<div align=center> ![lagrange](mltech02/3.png) </div>
+<div align=center> ![lagrange](3.png) </div>
 
 我们的对偶SVM所要处理的问题就是：
 
-<div align=center> ![dual svm](mltech02/4.png) </div>
+<div align=center> ![dual svm](4.png) </div>
 
 当然，我们需要证明这个新的方案和原始的是相同的，我们考虑两个情况：
 
@@ -47,11 +47,11 @@ tags: ML
 ## Lagrange Dual SVM
 首先，我们考虑下面的不等式是成立的：
 
-<div align=center> ![for fixed a](mltech02/5.png) </div>
+<div align=center> ![for fixed a](5.png) </div>
 
 其次我们考虑另外一个不等式：
 
-<div align=center> ![best](mltech02/6.png) </div>
+<div align=center> ![best](6.png) </div>
 
 注意到此时在不等式右侧我们已经将max和min对调，我们将上述不等式右侧作为Dual SVM的下界，我们接下来针对其进行求解。在此之前我们先了解弱对偶和强对偶的概念:
 
@@ -64,7 +64,7 @@ tags: ML
 
 现在我们优化我们的对偶问题：
 
-<div align=center> ![solving](mltech02/7.png) </div>
+<div align=center> ![solving](7.png) </div>
 
 根据对lagrange求最小值，我们可以使用梯度下降法，而最下值梯度为0，所以化简主要有这几步：
 
@@ -73,7 +73,7 @@ tags: ML
 
 通过代换我们可以化简为：
 
-<div align=center> ![no title](mltech02/8.png) </div>
+<div align=center> ![no title](8.png) </div>
 
 此时SVM的最优化仅仅和α有关！这些最优化的条件称为KKT（Karush-Kuhn-Tucker）。我们将使用
 KKT通过最优的α来求解b和w。
@@ -82,17 +82,17 @@ KKT通过最优的α来求解b和w。
 ## Solving Dual SVM
 首先我们将最大化问题转换为最小化问题：
 
-<div align=center> ![min](mltech02/10.png) </div>
+<div align=center> ![min](10.png) </div>
 
 我们仍然利用QP(二次规划)来解决Dual SVM问题。
 
-<div align=center> ![qp for dual svm](mltech02/9.png) </div>
+<div align=center> ![qp for dual svm](9.png) </div>
 
 需要注意的是如果N很大，此时可能求解Qn需要很大的内存（此时是稠密矩阵，dense），因此需要一些特别的解决方案，比如不存储整个矩阵，或者利用一些特殊的条件来加速求解。
 
 我们利用KKT条件来求解b和w：
 
-<div align=center> ![kkt for w and b](mltech02/11.png) </div>
+<div align=center> ![kkt for w and b](11.png) </div>
 
 上面说明，如果我们获得了最优的α，那么我们也能容易获得最优的w。而对于b的计算，我们只能获得一个范围。然而，我们注意上图中最下面的等式，此时如果αn > 0 ⇒ b = yn − wTzn，此时这些点就是支撑向量，因为它们在胖胖线的边界上。
 
@@ -101,7 +101,7 @@ KKT通过最优的α来求解b和w。
 
 下面是两种SVM的一个总结：
 
-<div align=center> ![summary](mltech02/12.png) </div>
+<div align=center> ![summary](12.png) </div>
 
 二者最终都是要找到一个最胖的超平面。
 
