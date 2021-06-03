@@ -12,7 +12,7 @@ head:
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
         # Name of the web application (default to the site title)
-        name: V
+        name: Vhdsih
         # The displayed name of the web application
         # when there is not enough space to display full name
         short_name:
@@ -127,7 +127,7 @@ article:
         # Default folding status of the code blocks. Can be "", "folded", "unfolded"
         fold: unfolded
     # Whether to show estimated article reading time
-    readtime: true
+    readtime: false
     # Article licensing block
     licenses:
         Creative Commons:
@@ -167,7 +167,7 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: V
+        author: Vhdsih
         # Author's current location
         location: Beijing
         # URL or path to the avatar image
@@ -210,6 +210,7 @@ widgets:
         # Where should the widget be placed, left sidebar or right sidebar
         position: right
         type: archives
+
     # Google FeedBurner email subscription widget configurations
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
