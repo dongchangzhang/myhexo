@@ -30,6 +30,6 @@
     "hexo-toc": "^0.0.3",
     "inferno": "^7.4.8",
     "inferno-create-element": "^7.4.8",
-    "lodash": "^3.10.1"
+    "lodash": "^4.17.21"
   }
 }
