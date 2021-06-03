@@ -1,8 +1,10 @@
 ---
 title: 18 Dual Support Vector Machine
 date: 2018-10-21 13:00:44
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

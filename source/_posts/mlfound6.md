@@ -1,8 +1,10 @@
 ---
 title: 06 Theory of Generalization
 date: 2018-10-10 19:03:21
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

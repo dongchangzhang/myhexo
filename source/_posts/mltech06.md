@@ -1,8 +1,10 @@
 ---
 title: 22 Support Vector Regression
 date: 2018-10-26 19:19:58
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

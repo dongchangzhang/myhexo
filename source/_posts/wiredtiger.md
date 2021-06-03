@@ -1,9 +1,11 @@
 ---
 title: WIREDTIGER
 date: 2021-06-03 18:50:11
-tags: wiredtiger
+tags: 
+   - wiredtiger
+   - DB-Guide
+categories: Database
 toc: true
-categories: database
 ---
 
 Wiredtiger数据库的简单整理和总结。

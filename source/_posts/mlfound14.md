@@ -1,8 +1,10 @@
 ---
 title: 14 Regularization
 date: 2018-10-16 16:16:39
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

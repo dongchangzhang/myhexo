@@ -1,8 +1,10 @@
 ---
 title: 11 Linear Models for Classification
 date: 2018-10-13 18:06:14
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

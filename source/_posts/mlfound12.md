@@ -1,8 +1,10 @@
 ---
 title: 12 Nonlinear Transformation
 date: 2018-10-14 19:18:13
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

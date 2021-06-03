@@ -1,8 +1,10 @@
 ---
 title: 08 Noise and Error
 date: 2018-10-11 17:03:32
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

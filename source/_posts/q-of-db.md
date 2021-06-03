@@ -1,8 +1,10 @@
 ---
 title: 数据库的问题集
 date: 2018-01-26 19:37:56
-tags: db
-categories: database
+tags:
+   - DB-Q&A
+   - Mooc
+categories: Database
 toc: true
 ---
 

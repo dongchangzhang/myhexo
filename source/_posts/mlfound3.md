@@ -1,8 +1,10 @@
 ---
 title: 03 Types of Learning
 date: 2018-10-08 16:39:37
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

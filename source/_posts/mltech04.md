@@ -1,8 +1,10 @@
 ---
 title: 20 Soft-Margin Support Vector Machine
 date: 2018-10-23 10:54:40
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

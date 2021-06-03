@@ -1,8 +1,10 @@
 ---
 title: 04 Feasibility of Learning
 date: 2018-10-08 19:47:22
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
  

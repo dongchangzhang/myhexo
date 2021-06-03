@@ -1,8 +1,10 @@
 ---
 title: 21 Kernel Logistic Regression
 date: 2018-10-25 14:42:35
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

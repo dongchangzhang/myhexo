@@ -1,8 +1,8 @@
 ---
 title: LinuxShell1 - 基础内容
 date: 2018-04-16 21:55:18
-tags: Shell
-categories: Linux
+tags: Linux Shell
+categories: System 
 toc: true
 ---
 

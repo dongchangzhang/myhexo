@@ -1,8 +1,10 @@
 ---
 title: 23 Blending and Bagging
 date: 2018-10-28 17:42:46
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

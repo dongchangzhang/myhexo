@@ -1,8 +1,10 @@
 ---
 title: 27 Gradient Boosted Decision Tree
 date: 2018-11-20 21:59:41
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

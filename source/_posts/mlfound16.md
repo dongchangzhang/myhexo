@@ -1,8 +1,10 @@
 ---
 title: 16 Three Learning Principles
 date: 2018-10-18 20:43:29
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

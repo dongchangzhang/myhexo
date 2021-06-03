@@ -1,8 +1,10 @@
 ---
 title: 10 Logistic Regression
 date: 2018-10-12 18:37:20
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

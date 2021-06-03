@@ -1,8 +1,10 @@
 ---
 title: 15 Validation
 date: 2018-10-17 19:19:57
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

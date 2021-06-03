@@ -1,8 +1,10 @@
 ---
 title: 17 Linear Support Vector Machine
 date: 2018-10-19 19:38:48
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: LinuxShell2 - cat, find, xargs and tr 
 date: 2018-04-17 10:53:39
-tags: Shell
-categories: Linux
+tags: Linux Shell
+categories: System 
 toc: true
 ---
 

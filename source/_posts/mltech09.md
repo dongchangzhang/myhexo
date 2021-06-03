@@ -1,8 +1,10 @@
 ---
 title: 25 Decision Tree
 date: 2018-11-17 20:15:36
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

@@ -1,8 +1,10 @@
 ---
 title: 28 Neural Network
 date: 2018-11-22 13:23:55
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

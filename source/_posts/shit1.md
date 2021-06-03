@@ -1,7 +1,8 @@
 ---
 title: 从一道简单的题反思自己的思维定式
 date: 2018-04-12 21:55:34
-tags: algorithm
+tags: Shit
+categories: More Exercise 
 toc: true
 ---
 

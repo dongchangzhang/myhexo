@@ -1,8 +1,10 @@
 ---
 title:  01 The Learning Problem
 date: 2018-10-07 16:21:24
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

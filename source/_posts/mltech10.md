@@ -1,8 +1,10 @@
 ---
 title: 26 Random Forest
 date: 2018-11-18 19:40:38
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

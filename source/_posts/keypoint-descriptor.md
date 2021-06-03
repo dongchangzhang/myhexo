@@ -1,7 +1,10 @@
 ---
 title: 特征提取过程中的keypoints和descriptors
 date: 2018-04-09 17:39:12
-tags: opencv
+tags: 
+   - opencv
+   - sift
+categories: LAJI
 toc: true
 ---
 

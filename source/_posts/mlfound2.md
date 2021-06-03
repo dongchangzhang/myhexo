@@ -1,8 +1,10 @@
 ---
 title: 02 Learning to Answer Yes or No
 date: 2018-10-07 20:21:00
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

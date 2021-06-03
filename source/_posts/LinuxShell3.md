@@ -1,8 +1,8 @@
 ---
 title: LinuxShell3 - more commands
 date: 2018-04-28 13:31:28
-tags: Shell
-categories: Linux
+tags: Linux Shell
+categories: System 
 toc: true
 ---
 

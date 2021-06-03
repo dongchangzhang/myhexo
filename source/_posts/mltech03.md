@@ -1,8 +1,10 @@
 ---
 title: 19 Kernel Support Vector Machine
 date: 2018-10-22 16:30:54
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

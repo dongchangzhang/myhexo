@@ -1,8 +1,10 @@
 ---
 title: 07 The VC Dimension 
 date: 2018-10-10 21:06:44
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

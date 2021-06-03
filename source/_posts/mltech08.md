@@ -1,8 +1,10 @@
 ---
 title: 24 Adaptive Boostring
 date: 2018-11-11 21:21:31
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

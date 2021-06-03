@@ -1,8 +1,10 @@
 ---
 title: 09 Linear Regression
 date: 2018-10-11 22:06:54
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 

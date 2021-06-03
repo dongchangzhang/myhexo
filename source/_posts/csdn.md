@@ -1,7 +1,12 @@
 ---
 title: 我的CSDN
 date: 2017-12-27 21:21:47
-tags: links
+tags: 
+    - links
+    - csdn
+    - history
+categories: LAJI
+
 toc: true
 ---
 

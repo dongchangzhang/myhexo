@@ -1,8 +1,10 @@
 ---
 title: 05 Training Versus Testing
 date: 2018-10-09 12:35:08
-tags: ML
-categories: ML
+tags: 
+    - 林轩田
+    - video-note
+categories: Machine Learning
 toc: true
 ---
 
