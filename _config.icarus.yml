@@ -179,13 +179,6 @@ widgets:
         # URL or path for the follow button
         follow_link: 'https://github.com/vhdsih'
         # Links to be shown on the bottom of the profile widget
-        social_links:
-            Github:
-                icon: fab fa-github
-                url: 'https://github.com/vhdsih'
-            Weibo:
-                icon: fab fa-weibo
-                url: 'https://weibo.com/u/6406556208'
 
     # Recent posts widget configurations
     -
