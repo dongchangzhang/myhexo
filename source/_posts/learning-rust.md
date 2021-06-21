@@ -2,14 +2,14 @@
 title: Learning Rust
 date: 2021-06-16 00:39:24
 tags:
-    - rust
-    - language
-    - learn-note
+    - Rust
+    - Programing language
+    - Learn-note
 categories: Language
 toc: true
 ---
 
-闲着没事干，学学 rust，另外计划用 rust 写写算法~，此篇笔记为阅读  [rust online book](https://doc.rust-lang.org/book/) 时记录的，希望能坚持看完，在此给予自己最大的鼓励！
+阅读  [rust online book](https://doc.rust-lang.org/book/) 时记录的笔记，辅以备忘。
 
 <!-- more -->
 
@@ -535,6 +535,8 @@ fn main() {
 
 ## 函数
 
+### 函数定义和传参
+
 rust 使用 fn 关键字来定义函数，如所见的 main 函数，我们同样可以定义其他函数，包括无参数函数、有参数函数等，函数参数必须指明数据类型，当然各个参数可以有各自的类型。
 
 ``` rust
@@ -552,6 +554,193 @@ fn test_args(x: i32, y: i32) {
 }
 ```
 
+### statements 和 expressions
+
+函数体由 statements 和 expressions 组成，expressions 是 statement 的一部分。rust 是基于表达式的语言 （ expression-based）。statement 执行一些动作但是不返回值，expression 总是能够推断出结果。如 let 语句为一个 statement：
+
+``` rust
+fn main() {
+    let x = 6;
+}
+```
+
+如果试图将 let 语句绑定到一个新的变量，将无法编译，因为 let 语句不能返回值，因此也不能绑定新的变量。因此，在 rust 中与类似于 C 语言的 x=y=1 的行为不同。
+
+``` rust
+fn main() {
+    let y = (let x = 6); // comile error
+}
+```
+
+以上的函数定义也是一个 statement。而计算并可得到结果的表达式组成了 rust 程序的绝大部分，诸如 5 + 6、100、调用函数、调用宏等以及使用 "{}" 包裹的多条语句，都是或能够成为表达式，表达式的结尾不包含分号，否则其将转换为 statement，并且将不会返回值。
+
+``` rust
+fn main() {
+    let x = 1;
+    let y = {
+        let x = 10;
+        x + 1
+    }; // 一个表达式，注意 x + 1 后无分号结尾，此 expression 结果为 11
+    println!("x out is {}", x);
+    println!("y is {}", y);
+}
+```
+
+### 函数返回值
+
+在 rust 中， 使用 "->" 来指明返回值类型，整个函数体和 "{}" 包裹的表达式是同义的。当然，函数可以使用 return 关键字提前返回结果，大多数函数隐式返回最后一个表达式。
+
+``` rust
+fn five() -> i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+
+    println!("The value of x is: {}", x);
+}
+```
+
+如果函数的最后一个语句加上了分号，且指明函数需要返回值或需要使用它的返回值，此时将无法编译，因为现在 expression 因为分号变成了 statement。
+
 ## 程序注释
 
+支持 "//" 的行注释和文档注释（后续章节中介绍）。
+
 ## 控制流
+
+### 分支
+
+使用 if else 分支，当 if 后的条件为 true，将执行其后 "{}" 包裹的语句，或称 arms。
+
+``` rust
+fn main() {
+    let x = 7;
+    if x > 5 {
+        println!("x > 5");
+    } else {
+        println!("x <= 5");
+    }
+}
+```
+
+需要注意的是，rust 中，if 的条件**必须显式为 bool 类型**，否则不能通过编译，这与 C 的隐式转换不同。
+
+``` rust
+fn main() {
+    let y = 1;
+    if y {
+        println!("y is not 0");
+    }
+} // 不能通过编译，不存在到 bool 的隐式转换。
+```
+
+当存在多个条件状态时，使用 else if 语句处理：
+
+``` rust
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");
+    } else if number % 2 == 0 {
+        println!("number is divisible by 2");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+}
+```
+
+当代码存在过多的 else if 需要进行重构，后续将介绍 match 来应对这种状况。
+
+### 表达式中的分支
+
+``` rust
+fn main() {
+    let z = if y { 199 } else { 299 };
+    println!("z is {}", z);
+}
+```
+
+需要注意，各个 arms 的值的类型必须相同，否则无法编译，rust 必须在编译器明确各个变量的类型。
+
+### 循环
+
+使用 loop 执行循环操作，配合 break 和 continue 来实现循环内复杂的跳转。
+
+``` rust
+fun main() {
+    loop {
+        println!("again");
+    }
+}
+```
+
+与 c 语言不同的，rust 的循环也是一个表达式（expression），即其可以返回值：
+
+``` rust
+fn main() {
+    let mut counter = 1;
+    let result = loop {
+        counter += 1;
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+    println!("result is {}", result); // result = 20
+}
+```
+
+### 带有条件的循环
+
+和其他语言类似，rust 提供了带有条件的 while 循环，其行为和其他语言类似：
+
+``` rust
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number -= 1;
+    }
+    println!("LIFTOFF!!!");
+}
+```
+
+### 范围for
+
+当遍历一个集合时，for 循环是一个方便的选择：
+
+``` rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a.iter() {
+        println!("the value is: {}", element);
+    }
+}
+```
+
+如使用 for 逆序打印得 3、2、1：
+
+``` rust
+for number in (1..4).rev() {
+        println!("{}!", number);
+    }
+    println!("LIFTOFF!!!");
+```
+
+
+# 四、所有权（ownership）
+
+所有权是 rust 语言的重要概念，其使 rust 在没有垃圾回收的情况下保证了内存安全。
+
+## 概念
+
+## 引用和借用 （Reference and Borrowing）
+
+## 切片类型（Slice Type）
