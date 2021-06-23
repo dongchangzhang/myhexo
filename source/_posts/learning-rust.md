@@ -737,10 +737,322 @@ for number in (1..4).rev() {
 
 # 四、所有权（ownership）
 
-所有权是 rust 语言的重要概念，其使 rust 在没有垃圾回收的情况下保证了内存安全。
+所有权是 rust 语言的重要概念，其使 rust 在没有垃圾回收的概念下仍然保证了内存安全。
 
 ## 概念
 
+继续学习 rust 之前，需要了解所有权的概念。对于包含 GC 的语言，使用者无需担忧内存的使用和释放，对于类似于 C 的语言，使用者则必须明确在动态分配的内存无用时显式释放。而 rust 则使用了另一种方法：其使用一系列的规则在编译期就明确了内存的所有权，所有权的特性不会在运行时拖慢程序的效率。
+
+> **堆和栈**
+>
+> 存储在栈上的数据必须在编译器明确了使用内存的尺寸，对于运行期才能确定内存的变量，则分配在堆上。对于堆和栈中的变量的使用，前者的效率明显低于后者，因为前者伴随了内存分配器分配内存等一系列的复杂操作。对于追踪变量到底分配在堆或栈、减少堆中重复数据、及时释放不再使用的内存等，都属于所有权问题。
+
+### 所有权规则
+
+rust 所有权的基本规则如下：
+
+- 每一个值都有一个变量作为它的拥有者（owner）;
+- 每一个值只能有一个 owner；
+- 当 owner 变量离开其作用域（scope），该值将被丢弃（drop）；
+
+### 变量作用域
+
+此部分并非 rust 独有的概念，其与 C 语言作用域的概念基本相同，变量在创建后生效，离开其所在的作用域失效：
+
+``` rust
+{                      // s is not valid here, it’s not yet declared
+    let s = "hello";   // s is valid from this point forward
+
+    // do stuff with s
+}                      // this scope is now over, and s is no longer valid
+```
+
+### String 类型
+
+为了进一步说明作用域的概念，此处引入了更复杂的数据类型。前面提到的整型等数据类型，均分配在栈中，String 类型则是分配在堆上的一个例子。使用 String 的 from 函数创建一个初始化的字符串，并使用 push_str 来追加。当使用调用 from 函数时，rust 将在堆上分配内存并将一个字母串字面值赋予该变量，当字符串变量离开其作用域，一个类似于 free 的动作则必须且只能被自动执行一次以保证内存安全，这个函数在 rust 中是 **drop** 函数。
+
+``` rust
+{
+    let mut s = String::from("hello");
+
+    s.push_str(", world!"); // push_str() appends a literal to a String
+
+    println!("{}", s); // This will print `hello, world!`
+}
+{
+    let s = String::from("hello"); // s is valid from this point forward
+    // do stuff with s
+}                                  // this scope is now over, and s is no
+                                    // longer valid
+```
+
+### 数据在变量间的移动和拷贝
+
+相同的数据可以在不同的变量间进行交互，对于基本的数据类型
+
+``` rust
+let x = 1;
+let y = x;
+```
+
+x 和 y 的值将同时为 1，因为 1 是一个固定长度的编译期已知的分配在栈上的简单数据。而对于更复杂的数据，其行为可能完全不同：
+
+``` rust
+let s1 = String::from("hello");
+let s2 = s1;
+```
+
+对于字符串而言，其 owner 由三个部分组成：指向堆数据的指针、实际数据长度以及堆预分配内存的长度。当将 s1 赋值给 s2，仅仅操作以上三部分数据，而真实指向的数据却并不会拷贝。
+
+然而，在 rust 中，以上并不是一个简单的浅拷贝，若符合浅拷贝的行为，则 s1 和 s2 两个 owner 将共享一份相同的数据，所以当 s1 和 s2 同时离开所属的作用域后，必然导致了堆相同数据的重复释放。
+
+故，在 s1 赋值给 s2 后，s1 将失效，这也导致当 s1 离开其作用域时，将不会发生任何事情，这是一个**移动**操作，而非拷贝，字符串 "hello" 所占用的内存释放的任务将交由 s2 完成。因此，以下的行为将导致编译错误，因为 s1 已经是一个非法的变量：
+
+``` rust
+let s1 = String::from("hello");
+let s2 = s1;
+println!("{}, world!", s1);
+```
+
+> rust 永远不会主动进行数据的深拷贝。
+
+若需要深拷贝的操作，请调用 clone 函数，此时，s1 和 s2 持有的是不同内存上的同值数据，clone 拷贝了堆数据。
+
+``` rust
+let s1 = String::from("hello");
+let s2 = s1.clone();
+
+println!("s1 = {}, s2 = {}", s1, s2);
+```
+
+然而，以上的概念对于只存在于栈上的数据而言，看起来是无效的。正如：
+
+``` rust
+let x = 1;
+let y = x;
+```
+
+此时 x 和 y 同时拥有数值 5，没有调用 clone，也没有移动行为的发生（x 并未失效）。
+
+原因在于，数据 1 是一个尺寸大小已知分配在栈上的整型数据，浅拷贝或深拷贝对于这种数据来说并没有什么不同。因此，对于这种简单数据类型，则忽略移动和克隆语义。
+
+rust 为这种类型提供了 Copy trait，通过调用 Copy 可以将该数据存放在栈上。若一个数据类型实现了 Copy，则其不能实现 Drop，反之也相同。Copy 保证了赋值给新的数据后旧的数据仍然可用。
+
+包括整型、布尔、浮点类型、字符类型、全部元素均含有 Copy 的 元组类型等，都实现了 Copy。
+
+### 所有权和函数
+
+rust 函数的参数和返回值，在使用上和其他语言有很大区别。传值给函数类似于给变量赋值。因此，对于实现了 Copy 的数据类型的数据，传给函数并离开函数作用域后，该数据仍然可用，对于实现了 Drop 的数据，当传递给函数后，相当于执行了移动语义，原始变量无效，此数据的生命周期将交由函数管理。
+
+这个例子可以清晰地说明这个问题：
+
+``` rust
+fn main() {
+    let s = String::from("hello");  // s comes into scope
+
+    takes_ownership(s);             // s's value moves into the function...
+                                    // ... and so is no longer valid here
+
+    let x = 5;                      // x comes into scope
+
+    makes_copy(x);                  // x would move into the function,
+                                    // but i32 is Copy, so it's okay to still
+                                    // use x afterward
+
+} // Here, x goes out of scope, then s. But because s's value was moved, nothing
+  // special happens.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("{}", some_string);
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("{}", some_integer);
+} // Here, some_integer goes out of scope. Nothing special happens.
+```
+
+同样，对于函数的返回值，在返回后将移动给调用者，并由其调用者管理生命周期。
+
+``` rust
+fn main() {
+    let s1 = gives_ownership();         // gives_ownership moves its return
+                                        // value into s1
+
+    let s2 = String::from("hello");     // s2 comes into scope
+
+    let s3 = takes_and_gives_back(s2);  // s2 is moved into
+                                        // takes_and_gives_back, which also
+                                        // moves its return value into s3
+} // Here, s3 goes out of scope and is dropped. s2 goes out of scope but was
+  // moved, so nothing happens. s1 goes out of scope and is dropped.
+
+fn gives_ownership() -> String {             // gives_ownership will move its
+                                             // return value into the function
+                                             // that calls it
+
+    let some_string = String::from("hello"); // some_string comes into scope
+
+    some_string                              // some_string is returned and
+                                             // moves out to the calling
+                                             // function
+}
+
+// takes_and_gives_back will take a String and return one
+fn takes_and_gives_back(a_string: String) -> String { // a_string comes into
+                                                      // scope
+
+    a_string  // a_string is returned and moves out to the calling function
+}
+```
+
+如果调用函数后仍然希望使用原有的参数呢？可以考虑将参数返回后在继续使用：
+
+``` rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len(); // len() returns the length of a String
+
+    (s, length)
+}
+```
+
+不过，rust 提供的引用将更好地解决这个问题。
+
 ## 引用和借用 （Reference and Borrowing）
+
+如上一小节所述，在函数调用发生后仍然需要使用原有参数变量是常见的需求，除了函数再次返回该参数作为解决方案外，还可以使用引用，使用引用将能够关联一些数据并无需接管其生命周期：
+
+``` rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+```
+
+> 与引用相反的操作是：解引用 \*，此处不做介绍。
+
+我们传递 "&s1" 作为函数的参数，且，函数参数 "s: &String" 表明其接受一个 String 类型的引用。函数参数在函数内有效，当离开函数作用域后，s 不会释放 s1 所持有的数据。
+
+我们把使用引用作为函数参数成为借用。注意，正如变量的不可变，引用在默认情况下同样不可改变其引用的数据，如下的例子试图修改引用的数据，将无法通过编译：
+
+``` rust
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    some_string.push_str(", world");
+}
+```
+
+那么如何修改被引用的数据？需引用一个 mut 变量，并在函数签名中使用 "&mut"：
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+```
+
+但是，rust 要求一个变量在一个作用域中只能接受一个可变引用，否则将编译失败：
+
+``` rust
+let mut s = String::from("hello");
+
+let r1 = &mut s;
+let r2 = &mut s;
+
+println!("{}, {}", r1, r2);
+```
+
+这种限制防止了数据竞争，尤其在以下几种场景中：
+
+- 多个指针同时指向相同的数据；
+- 至少一个指针正在写数据；
+- 没有数据同步机制；
+
+rust 通过这种机制避免了数据的竞争，它甚至在有潜在数据竞争发生的可能下禁止编译这份代码。
+
+当然，可以在不同作用域中使用多个可变引用：
+
+``` rust
+let mut s = String::from("hello");
+
+{
+    let r1 = &mut s;
+} // r1 goes out of scope here, so we can make a new reference with no problems.
+
+let r2 = &mut s;
+```
+
+此外，当存在一个可变引用时，无法存在不可变引用，因为需要在不可变引用存续期间保证变量的不可变性，不过多个不可变引用可以同时存在：
+
+``` rust
+let mut s = String::from("hello");
+
+let r1 = &s; // no problem
+let r2 = &s; // no problem
+let r3 = &mut s; // BIG PROBLEM
+
+println!("{}, {}, and {}", r1, r2, r3);
+```
+
+只有在不可变引用最后一次使用后，才能定义新的可变引用，因为此时无需保证数据的不变性：
+
+``` rust
+let mut s = String::from("hello");
+
+let r1 = &s; // no problem
+let r2 = &s; // no problem
+println!("{} and {}", r1, r2);
+// r1 and r2 are no longer used after this point
+
+let r3 = &mut s; // no problem
+println!("{}", r3);
+```
+
+还有一个问题是，可能存在空悬引用，在使用指针的语言系统中，这是一个常见的问题，不过 rust 的编译器保证了空悬引用不会存在，当存在这种情况将不能通过编译：
+
+``` rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String { // dangle returns a reference to a String
+
+    let s = String::from("hello"); // s is a new String
+
+    &s // we return a reference to the String, s
+} // Here, s goes out of scope, and is dropped. Its memory goes away.
+  // Danger!
+```
+
+函数试图返回一个已经离开声明周期的变量的引用是危险的操作，不过 rust 已经在编译器帮我们避免了这些可能。如果返回的是变量，则会通过移动将生命周期移交，不会存在这种问题。
+
+> 引用
+>
+> 任何时候，只能存在一个可变引用或多个不可变引用，且引用存在期间必须合法。
 
 ## 切片类型（Slice Type）
