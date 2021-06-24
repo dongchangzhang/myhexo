@@ -1055,4 +1055,197 @@ fn dangle() -> &String { // dangle returns a reference to a String
 >
 > 任何时候，只能存在一个可变引用或多个不可变引用，且引用存在期间必须合法。
 
-## 切片类型（Slice Type）
+## 切片类型（The Slice Type）
+
+### 不使用切片可能会产生的问题
+
+除了引用没有所有权外，另一个没有所有权的类型是切片。通过切片可以借用字符串、数组等数据的一部分或全部，从而避免使用索引后原有数据发生改变导致索引无效的问题。
+
+这里给出一个简单的例子，创建一个函数来获得一个字符串的第一个单词。注意声明函数的格式，包括参数、返回值类型以及最后一个语句没有冒号（expression 而非 statement）。在不引入切片时，函数可以返回第一个空白字符的位置作为第一个单词结尾的索引。此处使用 String 的 as_bytes 将 String 转为字符数组，使用数据的 iter 函数获取迭代器，使用迭代器的 enumerate 函数将返回数组的索引和对应索引的元素所组成的元组：
+
+``` rust
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    s.len()
+}
+```
+
+然而，存在的一个问题是，当调用函数后，原始字符串发生了改变，则返回的索引将失效，这导致了潜在的 bug：
+
+``` rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); // word will get the value 5
+
+    s.clear(); // this empties the String, making it equal to ""
+
+    // word still has the value 5 here, but there's no more string that
+    // we could meaningfully use the value 5 with. word is now totally invalid!
+}
+```
+
+当然，可以来判断 s 的 size，但是，这又如何判断此时的 s 是否是原有的 s 呢？
+
+
+### 字符串切片
+
+使用切片可以解决上述问题，字符串切片在 rust 中使用 "&str" 来表示，注意，其和 String 并不是相同的类型。
+
+``` rust
+let s = String::from("hello world");
+
+let hello = &s[0..5];
+let world = &s[6..11];
+```
+
+字符串切片使用 &string_name\[begin..end\] 来表示，左闭右开。若 begin 为字符串开始，可省略，若 end 为字符串结尾，可省略：
+
+``` rust
+let hello = &s[..5];  // hello 的类型为 &str，非 String
+let world = &s[6..];
+let hello_world = &s[..];
+```
+
+字符串切片实际上是对字符串一部分的引用，其所属权的规则与引用相同。需要注意，在使用字符串引用时，需保证其字符串为utf-8有效编码。
+
+使用切片，可以重写上一个例子，需要注意返回值的类型：
+
+``` rust
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+    &s[..]
+}
+```
+
+此时，在调用这个函数时后而未使用 word 前，若尝试修改 s 将无法通过编译：
+
+``` rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s);
+
+    s.clear(); // error!
+
+    println!("the first word is: {}", word);
+}
+```
+
+注意在引入引用和借用概念时，提到过**当存在不可变引用时，不能创建可变引用**，调用函数后返回了 s 的一个切片，即一个不可变引用（切片默认为不可变引用），当试图修改字符串 s 时，此时需要使用数据的一个可变引用，故失败。当最后一次使用 word后，我们才能修改 s。
+
+使用切片保持了 word 相对于 s 的状态。
+
+### 字符串字面值是一个切片
+
+``` rust
+let s = "Hello, world!"; // the type of s is &str
+```
+
+"Hello, world!" 是一个字符串字面值，其真实的数据类型为字符串切片，即 &str，因此字符串字面值是不可变的。
+
+### 字符串切片作为函数参数
+
+除了上述作为返回值，切片同样可以作为函数参数传入:
+``` rust
+fn first_word(s: &str) -> &str {
+    // fn body
+}
+```
+
+使用字符串切片作为参数具有更高的适用性，如果参数类型是 String，则无法传入切片，相反，却能够简单地将字符串作为参数传入函数:
+
+
+``` rust
+fn main() {
+    let my_string = String::from("hello world");
+
+    // first_word works on slices of `String`s
+    let word = first_word(&my_string[..]);
+
+    let my_string_literal = "hello world";
+
+    // first_word works on slices of string literals
+    let word = first_word(&my_string_literal[..]);
+
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word = first_word(my_string_literal);
+}
+```
+
+### 其他类型的切片
+
+不止 String，还有一些数据类型也有切片的概念，如元素类型为 u32 的数组，其切片类型表示为 &\[u32\]，此处仅简单了解即可，后续会有更详细的介绍。
+
+
+# 五、数据结构
+
+此章节学习 rust 中数据结构的定义和使用。
+
+## 定义并实例化 struct
+
+使用关键字 struct 可以将许多不同类型的数据组织在一起，例如，定义一个简单的结构：
+
+``` rust
+struct User {           // the name of the struct is User
+    username: String,   // ver_name: ver_type,
+    email: String,
+    sign_in_count: u64,
+    active: bool,
+}
+```
+
+使用该结构时，使用 struct_name { key: value} 的形式来创建其实例。注意，无需在意变量的顺序，
+
+``` rust
+let user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
+```
+
+可以使用 "." 方法来读取数据，对于可变的实例，可以使用 "." 方法了修改数据，此时整个结构的所有变量均可变，rust 不允许结构部分变量可变：
+
+``` rust
+let mut user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
+
+user1.email = String::from("anotheremail@example.com");
+```
+
+当然可以使用函数来实例化一个结构：
+
+``` rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        email: email,
+        username: username,
+        active: true,
+        sign_in_count: 1,
+    }
+}
+```
+
+## 在程序中使用 struct
+
+## struct 的方法
