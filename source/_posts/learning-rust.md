@@ -1220,7 +1220,7 @@ let user1 = User {
 };
 ```
 
-可以使用 "." 方法来读取数据，对于可变的实例，可以使用 "." 方法了修改数据，此时整个结构的所有变量均可变，rust 不允许结构部分变量可变：
+可以使用 "." 方法来读取数据，对于可变的实例，可以使用 "." 方法修改数据，此时整个结构的所有变量均可变，rust 不允许结构部分变量可变：
 
 ``` rust
 let mut user1 = User {
@@ -1246,6 +1246,171 @@ fn build_user(email: String, username: String) -> User {
 }
 ```
 
+此外，rust 提供了更方便的特性来避免函数参数在实例化结构体时需要显式指明的问题，若函数参数名和结构体的元素名相同时，可以省略其value，例如：
+
+``` rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        email,
+        username,
+        active: true,
+        sign_in_count: 1,
+    }
+}
+```
+
+此时，只需要使用 email 替代 email: email 即可。为了创建与已有 struct 仅存在少量区别时，使用 update 语法可以更简单地实现这个需求。例如，已有 user1，此时需要建立一个 user2，其只有 email 和 username 是不同的，则可以在指明新变量的 key: value 后，使用 ..user1 指明 user2 的其他域元素均和 user1 相同，并从 user1 的value 进行实例化对应参数。注意，此时 user2 是一个新的实例。
+
+``` rust
+let user2 = User {
+    email: String::from("another@example.com"),
+    username: String::from("anotherusername567"),
+    ..user1
+};
+```
+
+除了上述 struct 的形式外，rust 还支持 tuple struct 的定义。与上述的普通 struct 相比，其内各个 fields 没有变量名:
+
+``` rust
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+let black = Color(0, 0, 0);
+let origin = Point(0, 0, 0);
+```
+
+当我们需要为 tuple 类型指明一个名字时，即可以这样定义，如上述例子，black 是 Color 的一个实例，origin 是一个 Point 的一个实例。但是，尽管 Color 和 Point 的定义形式相同，但它们不是相同的类型，故需要 Color 参数的函数不接受 Point 类型的参数。tuple struct 的其他行为类似于普通的 tuple，如 ".index" 来索引元素、解元组操作等。
+
+struct 也支持空的定义，即无任何 fields。这对于某些类型：不包含任何数据，但是其支持某些函数操作，是有用的。
+
+struct 的元素支持引用类型，但是，此时需要使用 rust 生命周期的特性，来保证 struct 中的元素的生命周期长于 struct 结构，如下的使用方法是无法通过编译的。关于如何修复这个问题后续会有介绍。
+
+``` rust
+struct User {
+    username: &str,
+    email: &str,
+    sign_in_count: u64,
+    active: bool,
+}
+
+fn main() {
+    let user1 = User {
+        email: "someone@example.com",
+        username: "someusername123",
+        active: true,
+        sign_in_count: 1,
+    };
+}
+```
+
 ## 在程序中使用 struct
 
+此节使用 struct 实现了一个计算长方形面积的程序，除了使用到了所学到的 struct 外，还使用了数据借用等知识点：
+
+``` rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect = Rectangle {
+        width: 50,
+        height: 30,
+    };
+
+    // need define Display to use {} for Rectangle
+    // println!("rect {} area is {}", rect, area(&rect));
+
+    // need define Debug or
+    println!("rect {:?} area is {}", rect, area(&rect));
+     // add #[derive(Debug)] before struct Rectangle
+    println!("rect {:#?} area is {}", rect, area(&rect));
+}
+
+fn area(rect: &Rectangle) -> u32 {
+    rect.width * rect.height
+}
+```
+
+例子中，试图打印 Rectangle 结构，我们尚未了解 struct 的方法，若使用 "{}" 来做占位符，则必须实现 Display，此外，我们还可以使用 "{:?}" 和 "{:#?}" 来作为占位符打印调试信息，此时必须定义 Debug 或在定义结构体前添加 "#[derive(Debug)]"，二者的区别在于前者只输出简单的字符串，后者更清晰地显示 struct 结构。
+
 ## struct 的方法
+
+方法类似于函数，不同的是其声明于 struct 内部，而且其第一个参数总是 self（想到python了没~）来表示 struct 本身，通过使用方法，我们可以将 上述程序重写如下：
+
+``` rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
+fn main() {
+    let rect = Rectangle {
+        width: 50,
+        height: 30,
+    };
+
+    println!("area is {}", rect.area());
+}
+```
+
+使用 impl 关键字，将 Rectangle 所拥有的方法定义在其后的 "{}" 中，方法的第一个参数是 "&self"，并未明确指明其类型，如 "self: Rectangle"，因为 rust 可以自行推断。使用了引用，表示了该方法仅仅借用了实例的变量，不拥有其生命周期，若需要更改实例的变量值，必须使用 "&mut self" 作为第一个参数，直接使用无引用的 "self" 作为第一个参数是很少见的，不过在将本实例转换为其他实例时可能会用到。
+
+不论方法的第一个参数是 "self", "&self", "&mut self"，在使用方法时都无需关心是否需要对方法所属的实例的引用问题，rust 自动提供了对应内容，如例所示，二者是等价的：
+
+``` rust
+p1.distance(&p2);
+(&p1).distance(&p2);
+```
+
+当然，也可以为方法提供更多的参数：
+
+``` rust
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width >= other.width && self.height >= other.height
+    }
+}
+```
+
+此外，在 impl 的作用域中，我们还可以定义关联函数（Associated Functions），这些函数不需要 self 参数。他们和 struct 关联在一起。关联函数通常用于返回该结构对应的新实例，例如 String 的 from 函数：
+
+``` rust
+impl Rectangle {
+    fn square(size: u32) -> Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+```
+
+如上，可以初始化一个正方形。对于关联函数来讲，使用 "::" 来调用：
+
+``` rust
+let sq = Rectangle::square(3);
+```
+
+每个 struct 可以有多个 impl 区域，因此多个方法可以分别定义在不同的 impl 中。
+
+# 六、枚举和模式匹配
+
+## 定义枚举
+
+## match 操作符
+
+##
