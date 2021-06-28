@@ -1411,6 +1411,178 @@ let sq = Rectangle::square(3);
 
 ## 定义枚举
 
+### 定义和使用简单的枚举
+
+我们可以通过枚举来定义事件的所有不同的可能性，如 ip 地址的种类，包括 ipv4 和 ipv6，则为了后续的区分，可以定义一个枚举：
+
+``` rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+```
+
+此时，我们可以创建该枚举的实例：
+
+``` rust
+let four = IpAddrKind::v4;
+let six  = IpAddrKind::v6;
+```
+
+枚举中的所有的元素都属于该枚举命名空间，此时，four 和 six 同属于 IpAddrKind 类型，我们可以在函数传入参数来使用枚举：
+
+``` rust
+fn use_enum(ip_kind: IpAddrKind) {
+    // fn body
+}
+fn main() {
+    let ipv4 = IpAddrKind::v4;
+    use_enum(ipv4);
+}
+```
+
+### 将枚举与数据绑定
+
+与 C 语言中常见的枚举类型不同的是，rust 可以将数据和枚举中的元素绑定到一起。例如，当我们需要明确每个 ip 地址是 v4 版本还是 v6版本的，按照往常的思路：
+
+``` rust
+enum IpAddrKind { V4, V6}
+struct IpAddr {
+    addr: String,
+    kind: IpAddrKind,
+}
+```
+
+当然，上述写法是正确的，但是有更方便的用法：
+
+``` rust
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+```
+
+此时，枚举的每个具体值可以和一个 String 类型的数据绑定：
+
+``` rust
+let home = IpAddr::V4(String::from("my.home.com"));
+let remote = IpAddr::V6(String::from("::1"));
+```
+
+因此，就不需要额外的 struct。然而，这并不是 enum 特性的终点：rust 中 enum 的不同元素可以绑定不同的数据类型：
+
+``` rust
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+```
+
+例如，标准库 IpAddr 的定义方法如下：
+
+``` rust
+struct Ipv4Addr {
+    // --snip--
+}
+struct Ipv6Addr {
+    // --snip--
+}
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+```
+
+> 在之前的代码中，我们定义了自己的 IpAddr，尽管标准库中也提供了相同的名字，但是由于我们并没有将其引入程序的命名空间，因此并不会发生冲突！
+
+
+### 枚举与方法 
+
+使用枚举可以有更多的想象空间，如：
+
+``` rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+```
+
+并且可以为其定义附带的方法：
+
+``` rust
+impl Message {
+    fn call(&self) {
+        // method body would be defined here
+    }
+}
+fn main() {
+    let m = Message::Write(String::from("hello"));
+    m.call();
+}
+```
+
+如果我们为使用 struct 实现上述操作，需要为每种动作定义一个类型，那么，处理起来将不那么方便！枚举方法的定义同 struct。
+
+### Option enum
+
+Option 类型是标准库中定义的另一种枚举类型，该枚举使用广泛，其可以代表 something，也可以表示 nothing。实际上，**rust 不像其他语言一样，它没有 null**，null 表示由于某种原因当前没有值或当前无效的值，在有 null 概念的语言中，其值或是 null，或是非 null，而且，当把 null 作为非 null 来使用的时候，往往会造成不可估量的后果。
+
+rust 不提供 null，但是它有一个枚举可以用来编码值的存在与否，即 "Option\<T\>"，其被标准库定义如下：
+
+``` rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+```
+
+Option\<T\> 已经包含的程序的作用域中，无需引用，同时，使用 Some 和 None 也无需使用 "Option::" 前缀。"\<T\>" 是 rust 中的泛型参数，此时，我们只需了解 "\<T\>" 表示Some 可以保存任意类型：
+
+``` rust
+let some_number = Some(5);
+let some_string = Some("a string");
+let absent_number: Option<i32> = None;
+```
+
+当使用 None 时，需要明确指明该数据的类型，以保证 rust 在编译期可以推断数据类型。此时需要注意的是，T 和 Option\<T\> 属于不同的类型，下面的代码无法通过编译：
+
+``` rust
+let a: i8 = 5;
+let b: Option<i8> = Some(10);
+
+let c = a + b;
+```
+
+当我们使用 T 时，编译器可以保证我们使用的永远都是合法的数据，而无需检查其是否为空，只有当我们使用 Option\<T\> 时，我们才需要担心是否有非法数据的使用风险，因此，我们必须对其进行检查后才能继续使用，即我们必须显式将 Option\<T\> 转换为 T 类型，并且明确指明当其为空值时的处理方式。具体内容阅读[文档](https://doc.rust-lang.org/std/option/enum.Option.html)。
 ## match 操作符
 
-##
+match 是 rust 提供的一种非常强大的控制流操作符，其可以在一系列的模式（Patterns）中进行匹配，并执行匹配成功后的模式所对应的代码。此中的模式可以是字面值、变量名、通配符（wildcards）以及其他多种类型。使用 match，具有强大的匹配能力，此外，其处理了所有可能性来保证程序的安全性。
+
+文档给出了一个生动的例子：可以将 match 操作符工作的过程理解为硬币分拣的流程，不同面值的硬币其直径不同，这些硬币依次通过尺寸从小到大的孔洞，当某个硬币的直径和对应孔的直径匹配的时候，便筛选出这枚硬币，使用 rust 的 match 来实现一个硬币面值英文名与其数值匹配的程序：
+
+``` rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => {
+            println!("10");
+            10
+        },
+        Coin::Quarter => 25,
+    }
+}
+```
+
+match 关键字后跟随待匹配的对象，其与 if 不同的是，if 要求其表达式的值必须为 bool 类型，而 match 的匹配值可以为任意类型。由 "{}" 包裹并由 "," 分隔的是 match 的多个 arms，每个 arm 包含符号 "=>" 左侧的待匹配模式和右侧的匹配后执行的代码。match 按照 arms 的顺序依次匹配检查，如果模式不能匹配，则继续执行下一个匹配，匹配后执行的代码是一个表达式，其表达式的值是 match 操作的返回值。如果匹配后需要执行多行代码，则可以使用 "{}" 将其包围。
+
+
+# Waiting for update later
