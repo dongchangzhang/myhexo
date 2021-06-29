@@ -1556,7 +1556,7 @@ let c = a + b;
 ```
 
 当我们使用 T 时，编译器可以保证我们使用的永远都是合法的数据，而无需检查其是否为空，只有当我们使用 Option\<T\> 时，我们才需要担心是否有非法数据的使用风险，因此，我们必须对其进行检查后才能继续使用，即我们必须显式将 Option\<T\> 转换为 T 类型，并且明确指明当其为空值时的处理方式。具体内容阅读[文档](https://doc.rust-lang.org/std/option/enum.Option.html)。
-## match 操作符
+## match
 
 match 是 rust 提供的一种非常强大的控制流操作符，其可以在一系列的模式（Patterns）中进行匹配，并执行匹配成功后的模式所对应的代码。此中的模式可以是字面值、变量名、通配符（wildcards）以及其他多种类型。使用 match，具有强大的匹配能力，此外，其处理了所有可能性来保证程序的安全性。
 
@@ -1583,6 +1583,111 @@ fn value_in_cents(coin: Coin) -> u8 {
 ```
 
 match 关键字后跟随待匹配的对象，其与 if 不同的是，if 要求其表达式的值必须为 bool 类型，而 match 的匹配值可以为任意类型。由 "{}" 包裹并由 "," 分隔的是 match 的多个 arms，每个 arm 包含符号 "=>" 左侧的待匹配模式和右侧的匹配后执行的代码。match 按照 arms 的顺序依次匹配检查，如果模式不能匹配，则继续执行下一个匹配，匹配后执行的代码是一个表达式，其表达式的值是 match 操作的返回值。如果匹配后需要执行多行代码，则可以使用 "{}" 将其包围。
+
+当一个 arm 被匹配并执行后，将不会继续匹配。
+
+match 的另一个有用的特性，其每个 arm 的 pattern 可以用以匹配绑定值的枚举，即：当 match 匹配一个绑定了值的枚举时，可以在匹配过程将其值绑定到指定的变量中。如下例子，coin 若匹配了 Coin::Quarter(UsState) 则 UsState 的值将绑定到 state 上，并在执行该 arm 对应的代码时使用。
+
+``` rust
+enum Coin {
+    YiJiao,
+    WuJiao,
+    YiYuan,
+    BuCunZai(u32),
+}
+fn match_coin(coin: Coin) -> u32 {
+    match coin {
+        Coin::YiJiao => 1,
+        Coin::WuJiao => 5,
+        Coin::YiYuan => 10,
+        Coin::BuCunZai(value) => value,
+    }
+}
+fn main() {
+    let coin1 = Coin::WuJiao;
+    let coin2 = Coin::YiJiao;
+    let coin3 = Coin::YiYuan;
+    let coin4 = Coin::BuCunZai(100);
+    println!(" value={}", match_coin(coin1));
+    println!(" value={}", match_coin(coin2));
+    println!(" value={}", match_coin(coin3));
+    println!(" value={}", match_coin(coin4));
+}
+```
+
+match 还可以用以匹配 Option\<T\> 类型（之前学习过，其为枚举类型，内含 None 和 Some(val) 两种变体，用以处理空的情况）：
+
+``` rust
+fn plus_one(x: Option<u32>) -> Option<u32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+fn main() {
+    let x = 1;
+    let y = plus_one(Some(x));
+    let z = plus_one(None);
+    println!("{:?} {:?} {:?}", x, y, z);
+}
+```
+
+> 在 rust 中，使用 match 匹配一个枚举，绑定数据，并使用该数据进行后续处理是常见的情景。
+
+使用 match 时，特别需要注意的是，必须处理枚举所有可能的值，否则无法通过编译，这也增加了代码的安全性。那么如果无法列出所有的情况该如何？使用占位符（Placeholder) "_"，占位符可以匹配任何值，这种情况下，如果不使用占位符，同样无法通过编译：
+
+``` rust
+    let some_u8_value = 0u8;
+    match some_u8_value {
+        1 => println!("one"),
+        3 => println!("three"),
+        5 => println!("five"),
+        7 => println!("seven"),
+        _ => (), // () 表示一个 unit value，不会发生任何事
+    }
+```
+
+对于复杂的匹配场景来说，match 是有用的，但是如果只有简单的匹配问题呢，我们应该使用 if let。
+
+## if let
+
+使用 if let 可以使用更少的代码处理只匹配一种值的情形，例如，只处理一个值时：
+
+``` rust
+fn main() {
+    let x = 1; 
+    if let 1 = x {
+        println!("x = 1");
+    }
+}
+```
+
+此时，等号右边是待匹配的值，左边是与之匹配的值。如果使用 match，还需要使用占位符处理其他情况。不过，使用 if let 就意味着放弃了 match 的安全性。当然，if let 也可以和 else 一起使用：
+
+``` rust
+fn main() {
+    let mut count = 0;
+    if let Coin::Quarter(state) = coin {
+        println!("State quarter from {:?}!", state);
+    } else {
+        count += 1;
+    }
+}
+```
+
+# 七、Packages, Crates, and Modules
+
+直至本节开始之前，学习的代码都在一个文件、一个 module 中。随着项目愈加复杂，我们需要更高效的代码管理方法，本节学习如何管理我们的项目，将学习到的内容包括：
+
+- Packages：源于 Cargo 的功能，帮助我们构建、测试和分享我们创建的 crates；
+- Crates：模块树用以生成库或可执行文件（ A tree of modules that produces a library or executable）；
+- Modules and use: Let you control the organization, scope, and privacy of paths；
+- Paths：命名项目的方式（如 struct、函数、module等）。
+## Packages and Crates
+
+## Modules
+
 
 
 # Waiting for update later
