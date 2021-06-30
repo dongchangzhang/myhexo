@@ -1678,16 +1678,92 @@ fn main() {
 
 # 七、Packages, Crates, and Modules
 
-直至本节开始之前，学习的代码都在一个文件、一个 module 中。随着项目愈加复杂，我们需要更高效的代码管理方法，本节学习如何管理我们的项目，将学习到的内容包括：
+直至本节开始之前，学习的代码都在一个文件、一个 module 中。随着项目愈加复杂，我们需要更高效的代码管理方法，如：拆分代码到多个文件、多个 modules；引入封装来重用代码和指定私有属性和共有接口等、引入 scope 来处理命名问题等。
+
+本章将主要内容：
 
 - Packages：源于 Cargo 的功能，帮助我们构建、测试和分享我们创建的 crates；
 - Crates：模块树用以生成库或可执行文件（ A tree of modules that produces a library or executable）；
 - Modules and use: Let you control the organization, scope, and privacy of paths；
 - Paths：命名项目的方式（如 struct、函数、module等）。
+
 ## Packages and Crates
+
+在模块系统中，首先学习 packages 和 crates。
+
+crate 是一个二进制或者库（library）。crate root 是一个源文件，rust编译它并构成 crate 的 root module。
+
+package 由一个或者多个 crate 组成并提供一系列功能，它包含一个 Cargo.toml 文件，以表示如何构建这些 crates。一个 package 必须包含 0 个或者 1 个 library crate，不能多于 1 个；同时可以包含任意数量的 binary crates，但是一个 package 中包含的 library crate 和 binary crate 的数量必须大于等于 1。
+
+当我们使用 cargo 创建一个新的 rust 项目后，cargo 默认为我们创建了如下文件：
+
+``` shell
+$ cargo new project && cd project
+$ tree
+.
+├── Cargo.toml
+└── src
+    └── main.rs
+
+1 directory, 2 files
+$ cat Cargo.toml
+[package]
+name = "show"
+version = "0.1.0"
+authors = ["vhdsih <vhdsih@hotmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+$
+```
+
+此时我们新建的 project 是一个 package，src/main.rc 是 binary crate 的 root，若存在 src/lib.rs 则其为 library crate 的 root，一个 package 有多个 binary crates，并把它们放在 src/bin 下，此时每个文件是一个单独的 binary crate。
+
+src/main.rs 和 src/lib.rs 可以理解为此 package 的编译入口，并将其传给 rustc，二者可以同时存在，main.rs 将生成二进制可运行的文件，lib.rs 将可被其他项目引用。仔细观察 Cargo.toml 可以发现并没有明确指明这两个文件作为 root，这是因为这是默认指定的特性。
+
+每个 crate 内部的方法独属于该 crate 的命名空间，因此，不同的 crate 可以定义相同的名字而不会发生冲突，但是相同的 crate 不能定义相同的名字，例如 rand 这个 crate 中的 Rng，我们可以在自己的 main.rs 中定义 struct Rng，同时使用 rand::Rng 来使用 rand crate 中的 Rng。
 
 ## Modules
 
+我们可以通过 modules 在一个 crate 中组织代码以达到更好的可读性和更高的易用性，同时，module 也为 crate 提供了访问权限控制：允许某些变量和方法公用或者私有。
+
+使用 cargo 创建一个 library：
+
+``` shell
+$ cargo new --lib restaurant
+$ cd restaurant
+$ tree .
+.
+├── Cargo.toml
+└── src
+    └── lib.rs
+
+1 directory, 2 files
+```
+
+可以将 lib.rs 中的代码更改为：
+
+``` rust
+mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+
+        fn seat_at_table() {}
+    }
+
+    mod serving {
+        fn take_order() {}
+
+        fn serve_order() {}
+
+        fn take_payment() {}
+    }
+}
+```
+
+使用 mod 关键字定义 module，而且在一个 module 中可以定义其他 module，此外，module 中还可以定义 struct，enum，constants，traits，函数等。
 
 
 # Waiting for update later
