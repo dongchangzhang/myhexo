@@ -103,13 +103,6 @@ head:
     rss:
 # Page top navigation bar configurations
 navbar:
-    # Navigation menu items
-    menu:
-        Home: /
-        Archives: /archives
-        Categories: /categories
-        Tags: /tags
-        About: /about
     # Links to be shown on the right of the navigation bar
 # Page footer configurations
 #footer:
