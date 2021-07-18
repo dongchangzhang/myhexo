@@ -1889,4 +1889,81 @@ pub fn eat_at_restaurant() {
 
 ## 通过 use 将路径引入作用域
 
+以上，我们学习通过绝对路径或者相对路径以使用对应目标，但是过于繁琐，可以通过 use 关键字将直接将目标路径引入当前作用域中：
+
+``` rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+use crate::front_of_house::hosting;
+// use self::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+}
+```
+
+通过 use，将 mod hosting 引入到 crate root，因此，hosting 将成为当前作用域的一个合法的名字。可以直接使用 hosting::xxxx 来引用对应的目标了。习惯上，对于 mod 中的函数，引入层级将到达其 mod 层，以明确该函数定义再其他模块中。use 可以使用相对路径或绝对路径。
+
+除此以外，use 也为模块引入提供了别名功能：
+
+``` rust
+use std::io::Result as IoResult
+```
+
+使用 pub use 可以实现名字的 Re-exporting（待研究，不懂啥意思，大概是虽然此处未实现该接口，但是可以通过 pub use 将该接口暴露到此位置，作为此处的接口。。。）
+
+以上，是引入自己实现的模块，若需要使用外部模块，则需要修改 Cargo.toml 文件，加入待引入的模块和版本号：
+
+``` toml
+[dependencies]
+rand = "0.8.3"
+```
+
+此时，Cargo 将从 crates.io 下载所有的依赖，并在该项目中可以使用 rand 模块。
+
+``` rust
+use rand::Rng;
+
+fn main() {
+    let secret_number = rand::thread_rng().gen_range(1..101);
+}
+```
+
+需要注意的是，引入标准库 std 不需要修改 toml 文件，但需要显式 use 来导入需要使用的对象名到当前作用域中。
+
+若需要引入相同模块下不同的子模块，以下是更简便的方法：
+
+``` rust
+use std::{cmp::Ordering, io};
+```
+
+又如：
+
+``` rust
+use std::io;
+use std::io::Write;
+
+// ->
+use std::io::{self, Write};
+```
+
+若需要引入某个模块下的所有内容，使用 * ：
+
+``` rust
+use std::collections::*;
+```
+
+## 将模块拆分到不同文件
+
+随着代码量的增大，在一个文件中书写并不是一个好的代码组织方式。
+
+
+
+
  Waiting for update later
