@@ -1908,7 +1908,7 @@ pub fn eat_at_restaurant() {
 }
 ```
 
-通过 use，将 mod hosting 引入到 crate root，因此，hosting 将成为当前作用域的一个合法的名字。可以直接使用 hosting::xxxx 来引用对应的目标了。习惯上，对于 mod 中的函数，引入层级将到达其 mod 层，以明确该函数定义再其他模块中。use 可以使用相对路径或绝对路径。
+通过 use，将 mod hosting 引入到 crate root，因此，hosting 将成为当前作用域的一个合法的名字。可以直接使用 hosting::xxxx 来引用对应的目标了。习惯上，对于 mod 中的函数，引入层级将到达其 mod 层，以明确该函数定义在其他模块中。use 可以使用相对路径或绝对路径。
 
 除此以外，use 也为模块引入提供了别名功能：
 
@@ -1963,7 +1963,63 @@ use std::collections::*;
 
 随着代码量的增大，在一个文件中书写并不是一个好的代码组织方式。
 
+当将代码拆分到多个文件时，遵循如下原则：
 
+1. 在使用其他文件中代码的文件的开始使用 "mod mod_name;" 告诉编译器导入这份代码；
+2. 代码可以声明在一个文件中，但是定义在另一个位置。
 
+例如，使用模块的代码：
+
+``` rust
+// src/lib.rs
+mod front_of_house;
+
+pub use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+}
+```
+
+模块代码：
+
+``` rust
+// src/front_of_house
+pub mod hosting {
+    pub fn add_to_waitlist() {}
+}
+```
+
+当然，这个模块代码可以声明与定义分离：
+
+``` rust
+// src/front_of_house.rs
+pub mod hosting;
+```
+
+``` rust
+// src/front_of_house/hosting.rs
+pub fn add_to_waitlist() {}
+```
+
+此时，调用仍然成功。
+
+# 八、常见的集合
+
+rust 的标准库中提供了一些有用的数据结构（collections），相比于前几章学习过的整型、浮点型等数据类型，这些 collections 具备表示更多数据的能力，同时，和内建的数组、元组不同，这些 collections 构建在堆上，因此无需在编译期指明其容量，还能在运行时动态改变其容量。对于这些不同的数据结构，根据其原理不同，有着不同的使用代价。
+
+本节讨论的内容如下：
+
+1. 使用 vector 在连续空间中存储数据；
+2. 使用 string 在连续空间中存储字符；
+3. 使用 hash map 存储 key、value 对。
+
+## Vector
+
+## String
+
+## Hash Map
 
  Waiting for update later
